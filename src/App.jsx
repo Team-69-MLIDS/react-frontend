@@ -1,35 +1,19 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import Dropdown from "./components/Dropdown";
 
 function App() {
-  const [count, setCount] = useState(0)
+    const options = [
+        { value: "chocolate", label: "Chocolate" },
+        { value: "strawberry", label: "Strawberry" },
+        { value: "vanilla", label: "Vanilla" },
+    ];
 
-  return (
-  
-  
-  
-    <div className="test"> 
-    <head>
-
-    
-
-    </head>
-    
-    
-    <body>
-
-
-    </body>
-     
-    
-    
-    </div>
-  
-  
-  
-    )
+    return (
+        <div className='test'>
+            <Dropdown options={options} />
+        </div>
+    );
 }
 
-export default App
+export default App;
