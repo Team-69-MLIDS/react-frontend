@@ -8,6 +8,7 @@ const Dropdown = ({ placeholder, options, inputName, onChange }) => {
 
     return (
         <Select
+            className='dropdown'
             placeholder={placeholder}
             options={options}
             inputName={inputName}

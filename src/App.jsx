@@ -2,21 +2,24 @@ import { useState } from "react";
 import "./App.css";
 import Dropdown from "./components/Dropdown";
 import RunConfigurator from "./components/RunConfigurator";
+import axios from "axios";
 
 function App() {
-    const algorithms = {
-        algorithms: [
+    const apiURL = "https://localhost:5000/api";
+
+    const models = {
+        models: [
             {
-                label: "Algorithm 1",
-                value: "Algorithm 1",
+                label: "Model 1",
+                value: "Model 1",
             },
             {
-                label: "Algorithm 2",
-                value: "Algorithm 2",
+                label: "Model 2",
+                value: "Model 2",
             },
             {
-                label: "Algorithm 3",
-                value: "Algorithm 3",
+                label: "Model 3",
+                value: "Model 3",
             },
         ],
     };
@@ -56,12 +59,22 @@ function App() {
     };
 
     return (
-        <div className='test'>
-            <RunConfigurator
-                Title='Run A'
-                algorithms={algorithms.algorithms}
-                datasets={datasets.datasets}
-            />
+        <div className='container'>
+            <div className='sidebar'>
+                <RunConfigurator
+                    Title='Run A'
+                    models={models.models}
+                    datasets={datasets.datasets}
+                />
+                <RunConfigurator
+                    Title='Run B'
+                    models={models.models}
+                    datasets={datasets.datasets}
+                />
+            </div>
+            <div className='rhs'>
+                <h1>test</h1>
+            </div>
         </div>
     );
 }
