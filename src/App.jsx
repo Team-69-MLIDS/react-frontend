@@ -1,11 +1,18 @@
 import { useState } from "react";
 import "./App.css";
-import Dropdown from "./components/Dropdown";
 import RunConfigurator from "./components/RunConfigurator";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
 import axios from "axios";
 
 function App() {
     const apiURL = "https://localhost:5000/api";
+
+    const tabData = [
+        { label: "Tab 1" },
+        { label: "Tab 2" },
+        { label: "Tab 3" },
+    ];
 
     const models = {
         models: [
@@ -60,6 +67,7 @@ function App() {
 
     return (
         <div className='container'>
+            {/* SIDEBAR */}
             <div className='sidebar'>
                 <RunConfigurator
                     Title='Run A'
@@ -72,8 +80,24 @@ function App() {
                     datasets={datasets.datasets}
                 />
             </div>
+            {/* RHS TABS */}
             <div className='rhs'>
-                <h1>test</h1>
+                <Tabs>
+                    <TabList>
+                        <Tab>
+                            <div className='tabTitle'>Title 1</div>
+                        </Tab>
+                        <Tab>
+                            <div className='tabTitle'>Title 2</div>
+                        </Tab>
+                    </TabList>
+                    <TabPanel>
+                        <div>this is a div</div>
+                    </TabPanel>
+                    <TabPanel>
+                        <div>This is another div</div>
+                    </TabPanel>
+                </Tabs>
             </div>
         </div>
     );

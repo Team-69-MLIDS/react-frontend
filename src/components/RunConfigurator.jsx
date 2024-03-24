@@ -28,7 +28,8 @@ const RunConfigurator = ({ Title, models, datasets }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        console.log(event);
+        //console.log(event); // Use to check if values are indexing correctly
+        
         setRunConfig({
             runID: event.target[0].value,
             learningRate: event.target[3].value,
@@ -36,12 +37,6 @@ const RunConfigurator = ({ Title, models, datasets }) => {
             model: selectedModel.value,
             dataset: selectedDataset.value,
         });
-
-        console.log("Run ID: ", event.target[0].value);
-        console.log("Learning Rate: ", event.target[3].value);
-        console.log("Depth: ", event.target[4].value);
-        console.log("Model: ", selectedModel.value);
-        console.log("Dataset: ", selectedDataset.value);
     };
 
     return (
