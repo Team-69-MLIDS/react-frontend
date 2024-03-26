@@ -16,7 +16,7 @@
     height: 100vh;
 }
 
-.rhs {
+.tabs {
     background-color: black;
     flex: 4;
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import RunConfigurator from "./components/RunConfigurator";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
@@ -6,13 +6,11 @@ import "react-tabs/style/react-tabs.css";
 import axios from "axios";
 
 function App() {
-    const apiURL = "https://localhost:5000/api";
+    const [hyperparams, setHyperParams] = useState(null);
+    const [selectedIndex, setSelectedIndex] = useState(0); // FORCE TO RUN RESULT TAB WHEN RUNING ENGINE
 
-    const tabData = [
-        { label: "Tab 1" },
-        { label: "Tab 2" },
-        { label: "Tab 3" },
-    ];
+    axios.defaults.baseURL = "http://localhost:5000/api";
+    axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
 
     const models = {
         models: [
@@ -48,22 +46,23 @@ function App() {
         ],
     };
 
-    const prevRuns = {
-        prevRuns: [
-            {
-                id: 1,
-                label: "Run 1",
-            },
-            {
-                id: 2,
-                label: "Run 2",
-            },
-            {
-                id: 3,
-                label: "Run 3",
-            },
-        ],
+    const fetchHyperParams = async () => {
+        try {
+            const response = await axios.get("/hyperparameters");
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching hyperparameters:", error);
+            throw error;
+        }
     };
+
+    useEffect(() => {
+        fetchHyperParams().then((data) => setHyperParams(data));
+    }, []);
+
+    useEffect(() => {
+        console.log(hyperparams);
+    }, [hyperparams]);
 
     return (
         <div className='container'>
@@ -81,8 +80,11 @@ function App() {
                 />
             </div>
             {/* RHS TABS */}
-            <div className='rhs'>
-                <Tabs>
+            <div className='tabs'>
+                <Tabs
+                    selectedIndex={selectedIndex}
+                    onSelect={(index) => setSelectedIndex(index)}
+                >
                     <TabList>
                         <Tab>
                             <div className='tabTitle'>Title 1</div>
@@ -90,12 +92,33 @@ function App() {
                         <Tab>
                             <div className='tabTitle'>Title 2</div>
                         </Tab>
+                        <Tab>
+                            <div className='tabTitle'>Title 3</div>
+                        </Tab>
+                        <Tab>
+                            <div className='tabTitle'>Title 4</div>
+                        </Tab>
+                        <Tab>
+                            <div className='tabTitle'>Title 5</div>
+                        </Tab>
+                        <Tab>
+                            <div className='tabTitle'>Title 6</div>
+                        </Tab>
+                        <Tab>
+                            <div className='tabTitle'>Title 7</div>
+                        </Tab>
+                        <Tab>
+                            <div className='tabTitle'>Title 9</div>
+                        </Tab>
                     </TabList>
                     <TabPanel>
                         <div>this is a div</div>
                     </TabPanel>
                     <TabPanel>
                         <div>This is another div</div>
+                    </TabPanel>
+                    <TabPanel>
+                        <div>Your mother</div>
                     </TabPanel>
                 </Tabs>
             </div>
