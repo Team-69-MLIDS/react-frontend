@@ -2,7 +2,7 @@ import "../App.css";
 import Dropdown from "./Dropdown";
 import { useState, useEffect } from "react";
 
-const RunConfigurator = ({ Title, models, datasets }) => {
+const RunConfigurator = ({ Title, models, datasets, onSubmit }) => {
     const [selectedModel, setSelectedModel] = useState(null);
     const [selectedDataset, setSelectedDataset] = useState(null);
 
@@ -29,7 +29,7 @@ const RunConfigurator = ({ Title, models, datasets }) => {
         event.preventDefault();
 
         //console.log(event); // Use to check if values are indexing correctly
-        
+
         setRunConfig({
             runID: event.target[0].value,
             learningRate: event.target[3].value,
@@ -37,6 +37,10 @@ const RunConfigurator = ({ Title, models, datasets }) => {
             model: selectedModel.value,
             dataset: selectedDataset.value,
         });
+
+        if (onSubmit) {
+            onSubmit();
+        }
     };
 
     return (

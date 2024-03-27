@@ -46,6 +46,10 @@ function App() {
         ],
     };
 
+    const handleRunConfiguratorSubmit = () => {
+        setSelectedIndex(0); // Change selected index to Recent Run tab
+    };
+
     const fetchHyperParams = async () => {
         try {
             const response = await axios.get("/hyperparameters");
@@ -72,11 +76,13 @@ function App() {
                     Title='Run A'
                     models={models.models}
                     datasets={datasets.datasets}
+                    onSubmit={handleRunConfiguratorSubmit}
                 />
                 <RunConfigurator
                     Title='Run B'
                     models={models.models}
                     datasets={datasets.datasets}
+                    onSubmit={handleRunConfiguratorSubmit}
                 />
             </div>
             {/* RHS TABS */}
@@ -87,28 +93,13 @@ function App() {
                 >
                     <TabList>
                         <Tab>
-                            <div className='tabTitle'>Title 1</div>
+                            <div className='tabTitle'>Recent Run</div>
                         </Tab>
                         <Tab>
-                            <div className='tabTitle'>Title 2</div>
+                            <div className='tabTitle'>Compare</div>
                         </Tab>
                         <Tab>
                             <div className='tabTitle'>Title 3</div>
-                        </Tab>
-                        <Tab>
-                            <div className='tabTitle'>Title 4</div>
-                        </Tab>
-                        <Tab>
-                            <div className='tabTitle'>Title 5</div>
-                        </Tab>
-                        <Tab>
-                            <div className='tabTitle'>Title 6</div>
-                        </Tab>
-                        <Tab>
-                            <div className='tabTitle'>Title 7</div>
-                        </Tab>
-                        <Tab>
-                            <div className='tabTitle'>Title 9</div>
                         </Tab>
                     </TabList>
                     <TabPanel>
