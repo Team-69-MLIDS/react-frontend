@@ -16,19 +16,19 @@
     height: 100vh;
 }
 
-.tabs {
+.compare {
     background-color: black;
     flex: 4;
+    padding: 1rem;
 }
 
 .sidebar {
     display: flex;
     flex-direction: column;
-    padding-left: 2rem;
-    justify-content: space-evenly;
     flex: 1;
     padding: 1rem;
     background-color: #4d4d4d;
+    overflow-y: auto;
 }
 
 .modelInputs {
@@ -41,5 +41,54 @@
 }
 
 .tabTitle {
-    color: blue;
+    color: black;
+}
+
+/* Output */
+
+.outputContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.runOutput {
+    display: flex;
+    border: 1px solid white;
+    flex: 1;
+    text-align: center;
+    flex-direction: column;
+}
+
+.outputHeading {
+    justify-content: center;
+}
+
+.outputColumn {
+    border: 1px solid white;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.runOutputColumns {
+    display: flex;
+    flex-direction: row;
+}
+
+.outputTable {
+    display: flex;
+    font-size: large;
+    flex: 1;
+    justify-content: space-evenly;
+}
+
+.table {
+    width: 100%;
+}
+
+/* Border */
+
+.border {
+    border: 1px solid white;
 }
