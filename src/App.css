@@ -2,6 +2,10 @@
     color: black;
 }
 
+#RunID {
+    margin: 0.5rem;
+}
+
 .runConfigurator {
     border: 1px solid white;
     color: black;

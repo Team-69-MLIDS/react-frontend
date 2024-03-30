@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 const RunConfigurator = ({ Title, models, datasets, onSubmit }) => {
     const [selectedModel, setSelectedModel] = useState(null);
     const [selectedDataset, setSelectedDataset] = useState(null);
-
     const [runConfig, setRunConfig] = useState({
         runID: "",
         learningRate: -0.1,
@@ -20,6 +19,8 @@ const RunConfigurator = ({ Title, models, datasets, onSubmit }) => {
 
     const handleModelChange = (inputName, selectedModel) => {
         setSelectedModel(selectedModel); // Update selected algorithm in state
+
+        //  USEEFFECT ON SELECTED MODEL CHANGE THAT GETS HYPER PARAMS
     };
     const handleDatasetChange = (inputName, selectedDataset) => {
         setSelectedDataset(selectedDataset); // Update selected dataset in state
@@ -35,13 +36,21 @@ const RunConfigurator = ({ Title, models, datasets, onSubmit }) => {
             learningRate: event.target[3].value,
             depth: event.target[4].value,
             model: selectedModel.value,
-            dataset: selectedDataset.value,
+            dataset: "data\\" + selectedDataset.value,
         });
+
+        // USEEFFECT ON RUNCONFIG CHANGE MAKES /RUN API CALL
 
         if (onSubmit) {
             onSubmit();
         }
     };
+
+    useEffect(() => {
+        const submitRun = async () => {
+            const response = await axios.post("/run");
+        };
+    }, []);
 
     return (
         <div className='runConfigurator'>

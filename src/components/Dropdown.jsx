@@ -10,7 +10,10 @@ const Dropdown = ({ placeholder, options, inputName, onChange }) => {
         <Select
             className='dropdown'
             placeholder={placeholder}
-            options={options}
+            options={options.map((option) => ({
+                value: option,
+                label: option,
+            }))}
             inputName={inputName}
             onChange={handleChange}
         />
