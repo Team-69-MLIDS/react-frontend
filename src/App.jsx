@@ -17,7 +17,7 @@ function App() {
 
     const testRunOutput = {
         confusion_matrices: {
-            property1: [[]],
+            property1: [],
             property2: [],
         },
         ensemble: {
@@ -29,6 +29,12 @@ function App() {
                     f1_score: 0,
                     support: 0,
                 },
+                {
+                    precision: 1.2,
+                    recall: 1.2,
+                    f1_score: 1.2,
+                    support: 1.2,
+                },
             ],
             property2: [
                 // Algorithm 2
@@ -38,6 +44,12 @@ function App() {
                     f1_score: 0,
                     support: 0,
                 },
+                {
+                    precision: 1.2,
+                    recall: 1.2,
+                    f1_score: 1.2,
+                    support: 1.2,
+                },
             ],
             property3: [
                 // Algorithm 3
@@ -46,6 +58,12 @@ function App() {
                     recall: 0,
                     f1_score: 0,
                     support: 0,
+                },
+                {
+                    precision: 0.1,
+                    recall: 1.2,
+                    f1_score: 1.2,
+                    support: 1.2,
                 },
             ],
         },
