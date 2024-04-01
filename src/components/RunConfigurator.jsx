@@ -1,10 +1,12 @@
 import "../App.css";
 import Dropdown from "./Dropdown";
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 const RunConfigurator = ({ Title, models, datasets, onSubmit }) => {
     const [selectedModel, setSelectedModel] = useState(null);
     const [selectedDataset, setSelectedDataset] = useState(null);
+    const [hyperparams, setHyperParams] = useState(null);
     const [runConfig, setRunConfig] = useState({
         runID: "",
         learningRate: -0.1,
@@ -13,15 +15,45 @@ const RunConfigurator = ({ Title, models, datasets, onSubmit }) => {
         dataset: "",
     });
 
+    axios.defaults.baseURL = "http://localhost:5000/api";
+    axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
+
     useEffect(() => {
         console.log(runConfig); // This will log the updated runConfig state
     }, [runConfig]); // This useEffect will run whenever runConfig state changes
 
     const handleModelChange = (inputName, selectedModel) => {
-        setSelectedModel(selectedModel); // Update selected algorithm in state
-
-        //  USEEFFECT ON SELECTED MODEL CHANGE THAT GETS HYPER PARAMS
+        setSelectedModel(selectedModel.value); // Update selected algorithm in state
     };
+
+    // HYPERPARAMS
+
+    useEffect(() => {
+        const fetchHyperParams = async () => {
+            try {
+                const response = await axios.get("/hyperparameters", {
+                    params: {
+                        model: selectedModel,
+                    },
+                });
+                setHyperParams(response.data);
+            } catch (error) {
+                console.error("Error fetching hyperparameters:", error);
+                throw error;
+            }
+        };
+        if (selectedModel) {
+            console.log(selectedModel);
+            fetchHyperParams();
+        }
+    }, [selectedModel]);
+
+    useEffect(() => {
+        if (hyperparams) {
+            console.log(hyperparams);
+        }
+    }, [hyperparams]);
+
     const handleDatasetChange = (inputName, selectedDataset) => {
         setSelectedDataset(selectedDataset); // Update selected dataset in state
     };

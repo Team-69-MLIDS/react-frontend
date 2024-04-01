@@ -7,7 +7,6 @@ import "react-tabs/style/react-tabs.css";
 import axios from "axios";
 
 function App() {
-    const [hyperparams, setHyperParams] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(0); // FORCE TO RUN RESULT TAB WHEN RUNING ENGINE
     const [models, setModels] = useState(null);
     const [datasets, setDatasets] = useState(null);
@@ -86,6 +85,15 @@ function App() {
                 macro_avg: 0,
                 weighted_avg: 0,
             },
+            property3: {
+                avg_accuracy: 0,
+                avg_precision: 0,
+                avg_recall: 0,
+                avg_f1: 0,
+                unrounded_f1: [1.69, 1.54],
+                macro_avg: 0,
+                weighted_avg: 0,
+            },
         },
         model: "model name",
         runid: "run id",
@@ -111,9 +119,9 @@ function App() {
         fetchModels();
     }, []);
 
-    useEffect(() => {
-        console.log(models);
-    }, [models]);
+    // useEffect(() => {
+    //     console.log(models);
+    // }, [models]);
 
     // DATASET
 
@@ -131,28 +139,9 @@ function App() {
         fetchDatasets();
     }, []);
 
-    useEffect(() => {
-        console.log(datasets);
-    }, [datasets]);
-
-    // HYPERPARAMS
-
-    useEffect(() => {
-        const fetchHyperParams = async () => {
-            try {
-                const response = await axios.get("/hyperparameters");
-                setHyperParams(response.data);
-            } catch (error) {
-                console.error("Error fetching hyperparameters:", error);
-                throw error;
-            }
-        };
-        fetchHyperParams();
-    }, []);
-
     // useEffect(() => {
-    //     console.log(hyperparams);
-    // }, [hyperparams]);
+    //     console.log(datasets);
+    // }, [datasets]);
 
     if (!datasets || !models) {
         return <div>Loading...</div>;
@@ -189,7 +178,7 @@ function App() {
                         />
                     </TabPanel>
                     <TabPanel>
-                        <div>Your mother.</div>
+                        <div>TODO</div>
                     </TabPanel>
                 </Tabs>
             </div>
@@ -199,12 +188,14 @@ function App() {
                     <RunOutput
                         RunTitle={testRunOutput.runid}
                         model={testRunOutput.model}
-                        algorithms={testRunOutput.ensemble}
+                        table={testRunOutput.ensemble}
+                        overall={testRunOutput.overall}
                     />
                     <RunOutput
                         RunTitle={testRunOutput.runid}
                         model={testRunOutput.model}
-                        algorithms={testRunOutput.ensemble}
+                        table={testRunOutput.ensemble}
+                        overall={testRunOutput.overall}
                     />
                 </div>
             </div>

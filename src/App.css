@@ -24,6 +24,7 @@
     background-color: black;
     flex: 4;
     padding: 1rem;
+    overflow-y: auto;
 }
 
 .sidebar {
@@ -89,6 +90,11 @@
 
 .table {
     width: 100%;
+}
+
+.averageValues {
+    text-align: left;
+    margin: auto;
 }
 
 /* Border */
