@@ -3,7 +3,7 @@ import Dropdown from "./Dropdown";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const RunConfigurator = ({ Title, models, datasets, onSubmit }) => {
+const RunConfigurator = ({ models, datasets, onSubmit }) => {
     const [selectedModel, setSelectedModel] = useState(null);
     const [selectedDataset, setSelectedDataset] = useState(null);
     const [hyperparams, setHyperParams] = useState(null);
@@ -86,7 +86,6 @@ const RunConfigurator = ({ Title, models, datasets, onSubmit }) => {
 
     return (
         <div className='runConfigurator'>
-            <h1 className='runTitle'>{Title}</h1>
             <div className='configuratorOptions'>
                 <form onSubmit={handleSubmit}>
                     <input

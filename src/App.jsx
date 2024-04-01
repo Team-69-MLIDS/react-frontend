@@ -165,13 +165,6 @@ function App() {
                     </TabList>
                     <TabPanel>
                         <RunConfigurator
-                            Title='Run A'
-                            models={models}
-                            datasets={datasets}
-                            onSubmit={handleRunConfiguratorSubmit}
-                        />
-                        <RunConfigurator
-                            Title='Run B'
                             models={models}
                             datasets={datasets}
                             onSubmit={handleRunConfiguratorSubmit}
