@@ -97,6 +97,21 @@
     margin: auto;
 }
 
+/* HyperParameters */
+
+.hyperParamDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.hyperParamInput {
+    width: 60px;
+}
+
+.hyperParamLabel {
+}
+
 /* Border */
 
 .border {

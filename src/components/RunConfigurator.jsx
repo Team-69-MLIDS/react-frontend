@@ -2,6 +2,7 @@ import "../App.css";
 import Dropdown from "./Dropdown";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import HyperparamMenu from "./HyperparamMenu";
 
 const RunConfigurator = ({ models, datasets, onSubmit }) => {
     const [selectedModel, setSelectedModel] = useState(null);
@@ -124,6 +125,11 @@ const RunConfigurator = ({ models, datasets, onSubmit }) => {
                             defaultValue={0.89}
                         />
                     </div>
+                    {/* HYPERPARAMS */}
+
+                    {hyperparams != null ? (
+                        <HyperparamMenu params={hyperparams} />
+                    ) : null}
                     <button type='submit'>Run</button>
                 </form>
             </div>
