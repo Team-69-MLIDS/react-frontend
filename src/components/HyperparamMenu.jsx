@@ -51,7 +51,6 @@ const HyperparamMenu = ({ params }) => {
         <Collapsible trigger='Hyperparameters'>
             {keys.map((key) => (
                 <Collapsible trigger={key} key={key}>
-                    <p>Blue is optional, Red is Required</p>
                     {params[key].map((param, index) => {
                         // Ignore type_hints that are not 'int', 'float', or 'string' UNTIL BETTER SOLUTION
                         if (
@@ -65,11 +64,7 @@ const HyperparamMenu = ({ params }) => {
                         return (
                             <div className='hyperParamDiv' key={index}>
                                 <label
-                                    className={ //Display optionals as blue and non-optionals as red
-                                        param.optional == "False"
-                                            ? "hyperParamInput requiredHyperParam"
-                                            : "hyperParamInput optionalHyperParam"
-                                    }
+                                    className='hyperParamLabel'
                                     title={param.description}
                                 >
                                     {param.name}:

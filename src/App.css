@@ -112,13 +112,6 @@
 .hyperParamLabel {
 }
 
-.requiredHyperParam {
-    color: red;
-}
-.optionalHyperParam {
-    color: blue;
-}
-
 /* Border */
 
 .border {
