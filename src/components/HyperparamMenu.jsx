@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "../App.css";
 import Collapsible from "react-collapsible";
 
@@ -50,6 +51,7 @@ const HyperparamMenu = ({ params }) => {
         <Collapsible trigger='Hyperparameters'>
             {keys.map((key) => (
                 <Collapsible trigger={key} key={key}>
+                    <p>Blue is optional, Red is Required</p>
                     {params[key].map((param, index) => {
                         // Ignore type_hints that are not 'int', 'float', or 'string' UNTIL BETTER SOLUTION
                         if (
@@ -61,9 +63,13 @@ const HyperparamMenu = ({ params }) => {
                         }
 
                         return (
-                            <div className='hyperParamDiv border' key={index}>
+                            <div className='hyperParamDiv' key={index}>
                                 <label
-                                    className='hyperParamLabel'
+                                    className={ //Display optionals as blue and non-optionals as red
+                                        param.optional == "False"
+                                            ? "hyperParamInput requiredHyperParam"
+                                            : "hyperParamInput optionalHyperParam"
+                                    }
                                     title={param.description}
                                 >
                                     {param.name}:
