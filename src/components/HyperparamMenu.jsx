@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../App.css";
 import Collapsible from "react-collapsible";
 
-const HyperparamMenu = ({ params }) => {
+const HyperparamMenu = ({ params, onInputChange }) => {
+    const [hyperparamValues, setHyperparamValues] = useState({});
+
     const keys = Object.keys(params);
 
     const InputComponents = {
-        string: (param) => (
+        string: (param, classifier) => (
             <input
                 type='text'
                 placeholder='string'
@@ -16,9 +18,12 @@ const HyperparamMenu = ({ params }) => {
                         : ""
                 }
                 className='hyperParamInput'
+                onChange={(e) =>
+                    handleInputChange(param.name, e.target.value, classifier)
+                }
             />
         ),
-        int: (param) => (
+        int: (param, classifier) => (
             <input
                 type='number'
                 placeholder='int'
@@ -29,9 +34,16 @@ const HyperparamMenu = ({ params }) => {
                         : ""
                 }
                 className='hyperParamInput'
+                onChange={(e) =>
+                    handleInputChange(
+                        param.name,
+                        parseInt(e.target.value),
+                        classifier
+                    )
+                }
             />
         ),
-        float: (param) => (
+        float: (param, classifier) => (
             <input
                 type='number'
                 placeholder='float'
@@ -42,22 +54,42 @@ const HyperparamMenu = ({ params }) => {
                         : ""
                 }
                 className='hyperParamInput'
+                onChange={(e) =>
+                    handleInputChange(
+                        param.name,
+                        parseFloat(e.target.value),
+                        classifier
+                    )
+                }
             />
         ),
         // Add more input components for other type_hint values as needed
     };
+
+    // Sets hyperparam values of each hyperparameter under their specific classifier
+    const handleInputChange = (paramName, value, classifier) => {
+        setHyperparamValues((prevValues) => ({
+            ...prevValues,
+            [classifier]: {
+                ...(prevValues[classifier] || {}),
+                [paramName]: value,
+            },
+        }));
+    };
+
+    // Logs hyper param values FOR TESTING DELETE LATER
+    useEffect(() => {
+        onInputChange(hyperparamValues); // sends hyperparamValues to the parent component in order to form the runConfig
+    }, [hyperparamValues]);
 
     return (
         <Collapsible trigger='Hyperparameters'>
             {keys.map((key) => (
                 <Collapsible trigger={key} key={key}>
                     {params[key].map((param, index) => {
+                        const type = param.type_hint.split(",")[0];
                         // Ignore type_hints that are not 'int', 'float', or 'string' UNTIL BETTER SOLUTION
-                        if (
-                            !["int", "float", "string"].includes(
-                                param.type_hint
-                            )
-                        ) {
+                        if (!["int", "float", "string"].includes(type)) {
                             return null; // Skip rendering for ignored type_hints UNTIL BETTER SOLIUTION
                         }
 
@@ -65,11 +97,13 @@ const HyperparamMenu = ({ params }) => {
                             <div className='hyperParamDiv' key={index}>
                                 <label
                                     className='hyperParamLabel'
-                                    title={param.description}
+                                    title={
+                                        param.name + ":\n\n" + param.description
+                                    }
                                 >
                                     {param.name}:
                                 </label>
-                                {InputComponents[param.type_hint](param)}
+                                {InputComponents[type](param, key)}
                             </div>
                         );
                     })}

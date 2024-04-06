@@ -10,10 +10,9 @@ const RunConfigurator = ({ models, datasets, onSubmit }) => {
     const [hyperparams, setHyperParams] = useState(null);
     const [runConfig, setRunConfig] = useState({
         runID: "",
-        learningRate: -0.1,
-        depth: -0.1,
         model: "",
         dataset: "",
+        hyperparameters: null,
     });
 
     axios.defaults.baseURL = "http://localhost:5000/api";
@@ -21,14 +20,18 @@ const RunConfigurator = ({ models, datasets, onSubmit }) => {
 
     useEffect(() => {
         console.log(runConfig); // This will log the updated runConfig state
-    }, [runConfig]); // This useEffect will run whenever runConfig state changes
+    }, [runConfig]);
 
     const handleModelChange = (inputName, selectedModel) => {
-        setSelectedModel(selectedModel.value); // Update selected algorithm in state
+        setSelectedModel(selectedModel.value); // Update selected model in state
     };
 
+    useEffect(() => {
+        console.log(selectedModel);
+    }, [selectedModel]);
     // HYPERPARAMS
 
+    // Get hyperparameters for currently selected model
     useEffect(() => {
         const fetchHyperParams = async () => {
             try {
@@ -44,33 +47,40 @@ const RunConfigurator = ({ models, datasets, onSubmit }) => {
             }
         };
         if (selectedModel) {
-            console.log(selectedModel);
             fetchHyperParams();
         }
     }, [selectedModel]);
 
+    // Logs hyperparameters when they change FOR TESTING DELETE LATER
     useEffect(() => {
         if (hyperparams) {
             console.log(hyperparams);
         }
     }, [hyperparams]);
 
+    // Set hyperparamValues
+    const handleHyperparamChange = (hyperparamValues) => {
+        setRunConfig((prevValues) => ({
+            ...prevValues,
+            hyperparameters: hyperparamValues,
+        }));
+    };
+
     const handleDatasetChange = (inputName, selectedDataset) => {
-        setSelectedDataset(selectedDataset); // Update selected dataset in state
+        setSelectedDataset(selectedDataset.value); // Update selected dataset in state
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        //console.log(event); // Use to check if values are indexing correctly
+        console.log(event); // Use to check if values are indexing correctly
 
-        setRunConfig({
+        setRunConfig((prevValues) => ({
+            ...prevValues,
             runID: event.target[0].value,
-            learningRate: event.target[3].value,
-            depth: event.target[4].value,
-            model: selectedModel.value,
-            dataset: "data\\" + selectedDataset.value,
-        });
+            model: selectedModel,
+            dataset: "data\\" + selectedDataset,
+        }));
 
         // USEEFFECT ON RUNCONFIG CHANGE MAKES /RUN API CALL
 
@@ -109,26 +119,13 @@ const RunConfigurator = ({ models, datasets, onSubmit }) => {
                             onChange={handleDatasetChange}
                         />
                     </div>
-                    <div className='modelInputs'>
-                        <label htmlFor='LearningRate'>Learning Rate</label>
-                        <input
-                            type='float'
-                            name='LearningRate'
-                            id='LearningRate'
-                            defaultValue={0.01}
-                        />
-                        <label htmlFor='Depth'>Depth</label>
-                        <input
-                            type='float'
-                            name='Depth'
-                            id='Depth'
-                            defaultValue={0.89}
-                        />
-                    </div>
                     {/* HYPERPARAMS */}
 
                     {hyperparams != null ? (
-                        <HyperparamMenu params={hyperparams} />
+                        <HyperparamMenu
+                            params={hyperparams}
+                            onInputChange={handleHyperparamChange}
+                        />
                     ) : null}
                     <button type='submit'>Run</button>
                 </form>
