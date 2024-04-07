@@ -64,6 +64,14 @@
     flex-direction: column;
 }
 
+.confusionMatrix {
+    max-width: 100%;
+}
+
+.confusionMatrixImage {
+    max-width: 100%;
+}
+
 .outputHeading {
     justify-content: center;
 }
@@ -74,6 +82,7 @@
     flex: 1;
     justify-content: center;
     flex-direction: column;
+    position: relative;
 }
 
 .runOutputColumns {

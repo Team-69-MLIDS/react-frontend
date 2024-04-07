@@ -2,24 +2,21 @@ import { useEffect } from "react";
 import "../App.css";
 
 const OutputTable = ({ data }) => {
-    function createData(Attack, Precision, Recall, f1, Support) {
-        return { Attack, Precision, Recall, f1, Support };
+    function createData(index, row) {
+        return {
+            Attack: index,
+            Precision: row.precision.toFixed(2),
+            Recall: row.recall.toFixed(2),
+            f1: row.f1_score.toFixed(2),
+            Support: Math.round(row.support),
+        };
     }
-    const rows = data.map((row, index) => {
-        // For each row, call createData with the appropriate parameters
-        // console.log(row);
-        return createData(
-            index,
-            row.precision,
-            row.recall,
-            row.f1_score,
-            row.support
-        );
+
+    // Create rows array
+    const rows = Object.keys(data).map((key) => {
+        return createData(key, data[key]);
     });
 
-    // useEffect(() => { //FOR TESTING
-    //     console.log(rows);
-    // }, [rows]);
     return (
         <table className='table'>
             <thead>
@@ -27,7 +24,7 @@ const OutputTable = ({ data }) => {
                     <th>Atk</th>
                     <th>Prc</th>
                     <th>Rcl</th>
-                    <th>f1</th>
+                    <th>F1</th>
                     <th>Sup</th>
                 </tr>
             </thead>

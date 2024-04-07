@@ -19,7 +19,12 @@ const HyperparamMenu = ({ params, onInputChange }) => {
                 }
                 className='hyperParamInput'
                 onChange={(e) =>
-                    handleInputChange(param.name, e.target.value, classifier)
+                    handleInputChange(
+                        param.name,
+                        e.target.value,
+                        classifier,
+                        param.id
+                    )
                 }
             />
         ),
@@ -38,7 +43,8 @@ const HyperparamMenu = ({ params, onInputChange }) => {
                     handleInputChange(
                         param.name,
                         parseInt(e.target.value),
-                        classifier
+                        classifier,
+                        param.id
                     )
                 }
             />
@@ -58,7 +64,8 @@ const HyperparamMenu = ({ params, onInputChange }) => {
                     handleInputChange(
                         param.name,
                         parseFloat(e.target.value),
-                        classifier
+                        classifier,
+                        param.id
                     )
                 }
             />
@@ -67,12 +74,15 @@ const HyperparamMenu = ({ params, onInputChange }) => {
     };
 
     // Sets hyperparam values of each hyperparameter under their specific classifier
-    const handleInputChange = (paramName, value, classifier) => {
+    const handleInputChange = (paramName, value, classifier, id) => {
         setHyperparamValues((prevValues) => ({
             ...prevValues,
             [classifier]: {
                 ...(prevValues[classifier] || {}),
-                [paramName]: value,
+                [paramName]: {
+                    v: value,
+                    id: id,
+                },
             },
         }));
     };

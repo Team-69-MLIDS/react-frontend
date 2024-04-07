@@ -9,8 +9,8 @@ const RunConfigurator = ({ models, datasets, onSubmit }) => {
     const [selectedDataset, setSelectedDataset] = useState(null);
     const [hyperparams, setHyperParams] = useState(null);
     const [runConfig, setRunConfig] = useState({
-        runID: "",
-        model: "",
+        runid: "",
+        model_name: "",
         dataset: "",
         hyperparameters: null,
     });
@@ -22,13 +22,21 @@ const RunConfigurator = ({ models, datasets, onSubmit }) => {
         console.log(runConfig); // This will log the updated runConfig state
     }, [runConfig]);
 
-    const handleModelChange = (inputName, selectedModel) => {
-        setSelectedModel(selectedModel.value); // Update selected model in state
+    const handleModelChange = (inputName, model) => {
+        setSelectedModel(model.value); // Update selected model in state
     };
 
-    useEffect(() => {
-        console.log(selectedModel);
-    }, [selectedModel]);
+    const handleDatasetChange = (inputName, selectedDataset) => {
+        setSelectedDataset(selectedDataset.value); // Update selected dataset in state
+    };
+
+    const handleRunIDChange = (e) => {
+        setRunConfig((prevValues) => ({
+            ...prevValues,
+            runid: e.target.value,
+        }));
+    };
+
     // HYPERPARAMS
 
     // Get hyperparameters for currently selected model
@@ -48,8 +56,20 @@ const RunConfigurator = ({ models, datasets, onSubmit }) => {
         };
         if (selectedModel) {
             fetchHyperParams();
+            setRunConfig((prevValues) => ({
+                ...prevValues,
+                model_name: selectedModel,
+            }));
         }
     }, [selectedModel]);
+
+    // Sets dataset in runconfig when dataset changes
+    useEffect(() => {
+        setRunConfig((prevValues) => ({
+            ...prevValues,
+            dataset: selectedDataset ? selectedDataset : null,
+        }));
+    }, [selectedDataset]);
 
     // Logs hyperparameters when they change FOR TESTING DELETE LATER
     useEffect(() => {
@@ -66,27 +86,17 @@ const RunConfigurator = ({ models, datasets, onSubmit }) => {
         }));
     };
 
-    const handleDatasetChange = (inputName, selectedDataset) => {
-        setSelectedDataset(selectedDataset.value); // Update selected dataset in state
-    };
-
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-
-        console.log(event); // Use to check if values are indexing correctly
-
-        setRunConfig((prevValues) => ({
-            ...prevValues,
-            runID: event.target[0].value,
-            model: selectedModel,
-            dataset: "data\\" + selectedDataset,
-        }));
-
-        // USEEFFECT ON RUNCONFIG CHANGE MAKES /RUN API CALL
-
-        if (onSubmit) {
-            onSubmit();
+        try {
+            const response = await axios.post("/run", runConfig);
+            console.log(response.data);
+            onSubmit(response.data);
+        } catch (error) {
+            console.error("Error running engine: ", error);
+            throw error;
         }
+        return false;
     };
 
     useEffect(() => {
@@ -98,12 +108,13 @@ const RunConfigurator = ({ models, datasets, onSubmit }) => {
     return (
         <div className='runConfigurator'>
             <div className='configuratorOptions'>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} action=''>
                     <input
                         type='text'
                         name='RunID'
                         id='RunID'
                         placeholder='Enter RunID'
+                        onChange={handleRunIDChange}
                     />
                     <div className='configuratorDropdowns'>
                         <Dropdown

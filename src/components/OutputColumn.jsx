@@ -1,6 +1,6 @@
 import "../App.css";
 import OutputTable from "./OutputTable";
-const OutputColumn = ({ algorithm, tableData, overallData }) => {
+const OutputColumn = ({ algorithm, tableData, overallData, matrix }) => {
     const textPrompts = [
         "Average Accuracy: ",
         "Average Precision: ",
@@ -11,7 +11,6 @@ const OutputColumn = ({ algorithm, tableData, overallData }) => {
         "Weighted Average: ",
     ];
     const keys = Object.keys(overallData);
-
     return (
         <div className='outputColumn'>
             <h3>{algorithm}</h3>
@@ -22,11 +21,13 @@ const OutputColumn = ({ algorithm, tableData, overallData }) => {
                 {textPrompts.map((prompt, index) => (
                     <p key={index}>
                         {prompt}
-                        {overallData[keys[index]]}
+                        {overallData[keys[index]].toFixed(3)}
                     </p>
                 ))}
             </div>
-            <div className='confusionMatrix'></div>
+            <div className='confusionMatrix'>
+                <img className="confusionMatrixImage" src={"data:image/png;base64," + matrix} />
+            </div>
         </div>
     );
 };
