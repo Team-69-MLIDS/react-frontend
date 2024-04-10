@@ -106,7 +106,7 @@
     margin: auto;
 }
 
-/* HyperParameters */
+/* Hyperparameters */
 
 .hyperParamDiv {
     display: flex;
@@ -130,6 +130,8 @@
     border: 1px solid white;
 }
 
+/* Search */
+
 .searchList {
     border: 1px solid white;
     color: black;
@@ -138,4 +140,14 @@
     display: flex;
     flex-direction: column;
     justify-content: left;
+}
+
+.runSelectContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.runSelect {
+    border: 1px white solid;
 }

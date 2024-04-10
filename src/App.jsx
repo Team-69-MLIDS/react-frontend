@@ -5,67 +5,66 @@ import RunOutput from "./components/RunOutput";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import axios from "axios";
-import Fuse from 'fuse.js';
+import Fuse from "fuse.js";
 import SearchOptions from "./components/SearchOptions";
 
 function App() {
     const [models, setModels] = useState(null);
     const [datasets, setDatasets] = useState(null);
-    const [runOutput, setRunOutput] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
+    const [leftOutput, setLeftOutput] = useState(null);
+    const [rightOutput, setRightOutput] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [runData, setRunData] = useState([]);
 
-    const FuzzySearch = () => {
-        
-        useEffect(() => {
-          fetchData();
-        }, []);
-      
-        useEffect(() => {
-          const fuse = new Fuse(runData, {
-            keys: ['runID', 'date'],
-            threshold: 0.4,//fuzzy value
-          });
-      
-          const results = fuse.search(searchTerm);
-          setSearchResults(results);
-        }, [searchTerm, runData]);
-    
-    };
-    
+    axios.defaults.baseURL = "http://localhost:5000/api";
+    axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
+
+    const fuse = new Fuse(runData, {
+        keys: ["run_tag", "timestamp"],
+        threshold: 0.4, //fuzzy value
+    });
+
     useEffect(() => {
-    const fetchData = async () => {
-        try {
-          const response = await axios.get("/run");
-          setRunData(response.data);
-        } catch (error) {
-          console.error("Error loading runs: ", error);
+        if (searchTerm) {
+            // Show filtered data when there is a searchTerm
+            const results = fuse.search(searchTerm);
+            const fixedResults = results.map((run) => run.item);
+            setSearchResults(fixedResults);
+        } else {
+            // Show all data when searchTerm is null
+            setSearchResults(runData);
         }
-      };
-      fetchData();
-    },[])
+    }, [searchTerm, runData]);
+
+    // useEffect(() => {
+    //     console.log(searchResults);
+    // }, [searchResults]);
+
+    const fetchRunData = async () => {
+        try {
+            const response = await axios.get("/run");
+            setRunData(response.data);
+        } catch (error) {
+            console.error("Error loading runs: ", error);
+        }
+    };
+    useEffect(() => {
+        fetchRunData();
+    }, []);
 
     const handleSearch = (e) => {
         e.preventDefault();
         setSearchTerm(e.target.value);
-      };
+    };
 
-      useEffect(() => {
-        console.log(searchTerm);        
-      },[searchTerm])
+    // useEffect(() => {
+    //     console.log("Search Term: " + searchTerm);
+    // }, [searchTerm]);
 
-      useEffect(() => {
-        console.log(runData);        
-      },[runData])
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        
-      }
-
-    axios.defaults.baseURL = "http://localhost:5000/api";
-    axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
+    // useEffect(() => {
+    //     console.log(runData);
+    // }, [runData]);
 
     // MODELS
 
@@ -97,12 +96,21 @@ function App() {
         fetchDatasets();
     }, []);
 
-    useEffect(() => {
-        console.log(runOutput);
-    }, [runOutput]);
+    // useEffect(() => {
+    //     console.log(runOutput);
+    // }, [runOutput]);
+
+    const handleLeftSelect = (run) => {
+        setLeftOutput(run);
+    };
+    const handleRightSelect = (run) => {
+        setRightOutput(run);
+    };
 
     const handleRunResponse = (response) => {
-        setRunOutput([response, null]);
+        fetchRunData();
+        setLeftOutput(response);
+        setRightOutput(null);
     };
 
     if (!datasets || !models) {
@@ -130,46 +138,42 @@ function App() {
                         />
                     </TabPanel>
                     <TabPanel>
-                    {/* <div>
-                            <input
-                            type="text"
-                            placeholder="Search..."
+                        <input
+                            type='text'
+                            placeholder='Search...'
                             value={searchTerm}
                             onChange={handleSearch}
+                        />
+                        {searchResults.map((run, index) => (
+                            <SearchOptions
+                                key={index}
+                                run={run}
+                                onLeftSelect={handleLeftSelect}
+                                onRightSelect={handleRightSelect}
                             />
-                        <ul>
-                             {searchResults.map((result, index) => (
-                            <li key={index}>
-                                
-                                <span>{result.item.runID}</span> - <span>{result.item.date}</span>
-                            </li>
-                            ))} 
-                            
-                        </ul>
-                    </div> */}
-                    
-                    {runData.map((run)=>(<SearchOptions runID = {run.run_tag} date = {run.timestamp} model = {run.detection_model_name} dataset = {run.dataset}/>))}
+                        ))}
                     </TabPanel>
                 </Tabs>
             </div>
             {/* Compare Window */}
             <div className='compare'>
                 <div className='outputContainer'>
-                    {runOutput[0] ? (
+                    {leftOutput ? (
                         <RunOutput
-                            RunTitle={runOutput[0].run_tag}
-                            model={runOutput[0].detection_model_name}
-                            table={runOutput[0].learner_performance_per_attack}
-                            overall={runOutput[0].learner_overalls}
-                            matrices={runOutput[0].confusion_matrices}
+                            RunTitle={leftOutput.run_tag}
+                            model={leftOutput.detection_model_name}
+                            table={leftOutput.learner_performance_per_attack}
+                            overall={leftOutput.learner_overalls}
+                            matrices={leftOutput.confusion_matrices}
                         />
                     ) : null}
-                    {runOutput[1] ? (
+                    {rightOutput ? (
                         <RunOutput
-                            RunTitle={runOutput[1].run_tag}
-                            model={runOutput[1].detection_model_name}
-                            table={runOutput[1].learner_performance_per_attack}
-                            overall={runOutput[1].learner_overalls}
+                            RunTitle={rightOutput.run_tag}
+                            model={rightOutput.detection_model_name}
+                            table={rightOutput.learner_performance_per_attack}
+                            overall={rightOutput.learner_overalls}
+                            matrices={rightOutput.confusion_matrices}
                         />
                     ) : null}
                 </div>

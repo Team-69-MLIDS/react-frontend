@@ -1,19 +1,30 @@
 import "../App.css";
 
-const SearchOptions = ({runID, date, model, dataset}) => {
-    
+const SearchOptions = ({ run, onLeftSelect, onRightSelect }) => {
+    const selectLeft = () => {
+        onLeftSelect(run);
+    };
 
-    return (<div className = "searchList">
+    const selectRight = () => {
+        onRightSelect(run);
+    };
 
-
-        <h3>RunID:{runID}</h3>
-        <h4>Date:{date}</h4>
-        <h4>Model:{model}</h4>
-        <h4>Dataset:{dataset}</h4>
-
-    </div>)
-
-}
-
+    return (
+        <div className='searchList'>
+            <h3>RunID: {run.run_tag}</h3>
+            <h4>Date: {run.timestamp}</h4>
+            <h4>Model: {run.detection_model_name}</h4>
+            <h4>Dataset: {run.dataset}</h4>
+            <div className='runSelectContainer'>
+                <div className='runSelect' onClick={selectLeft}>
+                    left
+                </div>
+                <div className='runSelect' onClick={selectRight}>
+                    right
+                </div>
+            </div>
+        </div>
+    );
+};
 
 export default SearchOptions;
