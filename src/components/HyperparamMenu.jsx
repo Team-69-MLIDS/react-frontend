@@ -93,9 +93,9 @@ const HyperparamMenu = ({ params, onInputChange }) => {
     }, [hyperparamValues]);
 
     return (
-        <Collapsible trigger='Hyperparameters'>
+        <Collapsible className = "hyperparamsCollapse" trigger='Hyperparameters' transitionTime={.1} triggerStyle={{cursor: 'pointer'}}>
             {keys.map((key) => (
-                <Collapsible trigger={key} key={key}>
+                <Collapsible className = "classifiers" trigger={key} key={key} triggerStyle={{cursor: 'pointer'}} transitionTime={.1}>
                     {params[key].map((param, index) => {
                         const type = param.type_hint.split(",")[0];
                         // Ignore type_hints that are not 'int', 'float', or 'string' UNTIL BETTER SOLUTION
@@ -104,7 +104,7 @@ const HyperparamMenu = ({ params, onInputChange }) => {
                         }
 
                         return (
-                            <div className='hyperParamDiv' key={index}>
+                            <div className='hyperParamDiv' key={index} triggerStyle={{cursor: 'pointer'}}>
                                 <label
                                     className='hyperParamLabel'
                                     title={

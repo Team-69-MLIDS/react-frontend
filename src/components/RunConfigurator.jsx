@@ -14,6 +14,7 @@ const RunConfigurator = ({ models, datasets, onSubmit }) => {
         dataset: "",
         hyperparameters: null,
     });
+    const [buttonClicked, setButtonClicked] = useState(false); // State variable to track button click
 
     axios.defaults.baseURL = "http://localhost:5000/api";
     axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
@@ -88,13 +89,18 @@ const RunConfigurator = ({ models, datasets, onSubmit }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        try {
-            const response = await axios.post("/run", runConfig);
-            console.log(response.data);
-            onSubmit(response.data);
-        } catch (error) {
-            console.error("Error running engine: ", error);
-            throw error;
+        if (!buttonClicked) {
+            try {
+                setButtonClicked(true); // Disable button after first click
+                const response = await axios.post("/run", runConfig);
+                console.log(response.data);
+                onSubmit(response.data);
+            } catch (error) {
+                console.error("Error running engine: ", error);
+                throw error;
+            } finally {
+                setButtonClicked(false); // Enable button after loading completes
+            }
         }
         return false;
     };
@@ -138,7 +144,7 @@ const RunConfigurator = ({ models, datasets, onSubmit }) => {
                             onInputChange={handleHyperparamChange}
                         />
                     ) : null}
-                    <button type='submit'>Run</button>
+                    <button type='submit' disabled={buttonClicked}>Run</button>
                 </form>
             </div>
         </div>

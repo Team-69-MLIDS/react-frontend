@@ -1,7 +1,7 @@
 import "../App.css";
 import OutputColumn from "./OutputColumn";
 
-const RunOutput = ({ RunTitle, model, table, overall, matrices }) => {
+const RunOutput = ({ RunTitle, model, dataset, table, overall, matrices }) => {
     const tablekeys = Object.keys(table);
     const overallKeys = Object.keys(overall);
     const matrixKeys = Object.keys(matrices);
@@ -10,6 +10,7 @@ const RunOutput = ({ RunTitle, model, table, overall, matrices }) => {
             <div className='outputHeading'>
                 <h1>{RunTitle}</h1>
                 <h2>Model: {model.toUpperCase()}</h2>
+                <h2>Dataset: {dataset}</h2>
             </div>
             <div className='runOutputColumns'>
                 <OutputColumn

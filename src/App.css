@@ -149,5 +149,69 @@
 }
 
 .runSelect {
-    border: 1px white solid;
+    cursor: pointer;
+    font-size: 14px;
+    color: blue;
+    text-decoration: underline;
 }
+
+.hyperparamsCollapse {
+    position: relative;
+    text-decoration: underline;
+    font-weight: bold;
+    color: blue;
+}
+
+.Collapsible__trigger.is-open {
+    position: relative;
+    text-decoration: underline;
+    font-weight: bold;
+    color: purple;
+}
+
+.hyperparamsCollapse::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%) rotate(180deg); /* Rotate the triangle */
+    border: solid black;
+    border-width: 0 4px 4px 4px; /* Adjust the border-width for the correct angle */
+    border-color: transparent transparent black transparent; /* Adjust border-color */
+    display: inline-block;
+    width: 0;
+    height: 0;
+  }
+  
+  .classifiers {
+    font-weight: bold;
+    position: relative;
+    text-decoration: underline;
+    color: blue;
+  }
+
+.classifiers::after {
+    
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%) rotate(180deg); /* Rotate the triangle */
+        border: solid black;
+        border-width: 0 4px 4px 4px; /* Adjust the border-width for the correct angle */
+        border-color: transparent transparent black transparent; /* Adjust border-color */
+        display: inline-block;
+        width: 0;
+        height: 0;
+      
+}
+
+.hyperParamDiv {
+    position: relative;
+}
+
+.hyperParamDiv::after {
+   
+        content: none;
+}
+

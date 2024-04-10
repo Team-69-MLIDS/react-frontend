@@ -161,6 +161,7 @@ function App() {
                     {leftOutput ? (
                         <RunOutput
                             RunTitle={leftOutput.run_tag}
+                            dataset={leftOutput.dataset}
                             model={leftOutput.detection_model_name}
                             table={leftOutput.learner_performance_per_attack}
                             overall={leftOutput.learner_overalls}
@@ -170,6 +171,7 @@ function App() {
                     {rightOutput ? (
                         <RunOutput
                             RunTitle={rightOutput.run_tag}
+                            dataset={leftOutput.dataset}
                             model={rightOutput.detection_model_name}
                             table={rightOutput.learner_performance_per_attack}
                             overall={rightOutput.learner_overalls}

@@ -17,10 +17,11 @@ const SearchOptions = ({ run, onLeftSelect, onRightSelect }) => {
             <h4>Dataset: {run.dataset}</h4>
             <div className='runSelectContainer'>
                 <div className='runSelect' onClick={selectLeft}>
-                    left
+                    Copy to Left
                 </div>
+                
                 <div className='runSelect' onClick={selectRight}>
-                    right
+                    Copy to Right
                 </div>
             </div>
         </div>
