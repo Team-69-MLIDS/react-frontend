@@ -25,6 +25,7 @@ function App() {
         threshold: 0.4, //fuzzy value
     });
 
+    // Perform Search
     useEffect(() => {
         if (searchTerm) {
             // Show filtered data when there is a searchTerm
@@ -37,10 +38,7 @@ function App() {
         }
     }, [searchTerm, runData]);
 
-    // useEffect(() => {
-    //     console.log(searchResults);
-    // }, [searchResults]);
-
+    // Getting Run Data
     const fetchRunData = async () => {
         try {
             const response = await axios.get("/run");
@@ -53,18 +51,12 @@ function App() {
         fetchRunData();
     }, []);
 
+    // Setting Search Term
+
     const handleSearch = (e) => {
         e.preventDefault();
         setSearchTerm(e.target.value);
     };
-
-    // useEffect(() => {
-    //     console.log("Search Term: " + searchTerm);
-    // }, [searchTerm]);
-
-    // useEffect(() => {
-    //     console.log(runData);
-    // }, [runData]);
 
     // MODELS
 
@@ -96,10 +88,7 @@ function App() {
         fetchDatasets();
     }, []);
 
-    // useEffect(() => {
-    //     console.log(runOutput);
-    // }, [runOutput]);
-
+    // Set Outputs when clicked
     const handleLeftSelect = (run) => {
         setLeftOutput(run);
     };
@@ -107,6 +96,7 @@ function App() {
         setRightOutput(run);
     };
 
+    // Set Outputs when new run completes
     const handleRunResponse = (response) => {
         fetchRunData();
         setLeftOutput(response);
