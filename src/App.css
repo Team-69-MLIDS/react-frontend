@@ -20,7 +20,7 @@
     height: 100vh;
 }
 
-.compare {
+#compare {
     background-color: black;
     flex: 4;
     padding: 1rem;
@@ -53,6 +53,8 @@
 
 .outputContainer {
     display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
     flex-direction: row;
 }
 
@@ -215,3 +217,9 @@
         content: none;
 }
 
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+}

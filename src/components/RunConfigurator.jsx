@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import HyperparamMenu from "./HyperparamMenu";
 
-const RunConfigurator = ({ models, datasets, onSubmit }) => {
+const RunConfigurator = ({ models, datasets, onSubmit, onButtonClick }) => {
     const [selectedModel, setSelectedModel] = useState(null);
     const [selectedDataset, setSelectedDataset] = useState(null);
     const [hyperparams, setHyperParams] = useState(null);
@@ -91,6 +91,7 @@ const RunConfigurator = ({ models, datasets, onSubmit }) => {
         event.preventDefault();
         if (!buttonClicked) {
             try {
+                onButtonClick(true);
                 setButtonClicked(true); // Disable button after first click
                 const response = await axios.post("/run", runConfig);
                 console.log(response.data);
@@ -99,6 +100,7 @@ const RunConfigurator = ({ models, datasets, onSubmit }) => {
                 console.error("Error running engine: ", error);
                 throw error;
             } finally {
+                onButtonClick(false);
                 setButtonClicked(false); // Enable button after loading completes
             }
         }

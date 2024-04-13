@@ -3,10 +3,18 @@ import "../App.css";
 const SearchOptions = ({ run, onLeftSelect, onRightSelect }) => {
     const selectLeft = () => {
         onLeftSelect(run);
+        scrollToRef();
     };
+
+    const scrollToRef = () => {
+        document.getElementById('compare').scroll({
+          top: 0,
+        });
+      };
 
     const selectRight = () => {
         onRightSelect(run);
+        scrollToRef();
     };
 
     return (
