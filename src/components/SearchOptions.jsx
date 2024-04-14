@@ -7,10 +7,10 @@ const SearchOptions = ({ run, onLeftSelect, onRightSelect, onTweak }) => {
     };
 
     const scrollToRef = () => {
-        document.getElementById('compare').scroll({
-          top: 0,
+        document.getElementById("compare").scroll({
+            top: 0,
         });
-      };
+    };
 
     const selectRight = () => {
         onRightSelect(run);
@@ -31,10 +31,10 @@ const SearchOptions = ({ run, onLeftSelect, onRightSelect, onTweak }) => {
                 <div className='runSelect' onClick={selectLeft}>
                     Copy to Left
                 </div>
-                <div className='runSelectContainer' onClick={tweakRun}>
+                <div className='runSelect' onClick={tweakRun}>
                     Tweak
                 </div>
-                
+
                 <div className='runSelect' onClick={selectRight}>
                     Copy to Right
                 </div>

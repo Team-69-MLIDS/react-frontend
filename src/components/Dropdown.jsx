@@ -9,14 +9,23 @@ const Dropdown = ({
     onChange,
     tweakValue,
 }) => {
-    const [selected, setSelected] = useState(tweakValue ? tweakValue : null);
+    const [selected, setSelected] = useState(
+        tweakValue ? { value: tweakValue, label: tweakValue } : null
+    );
+
     const handleChange = (selectedOption) => {
+        setSelected(selectedOption);
         onChange(inputName, selectedOption); // Pass the selected option to the parent component
     };
 
+    // For testing Tweak Button
     useEffect(() => {
         console.log(selected);
     }, []);
+
+    useEffect(() => {
+        console.log("Tweak: " + tweakValue); 
+    }, [tweakValue]);
 
     return (
         <Select

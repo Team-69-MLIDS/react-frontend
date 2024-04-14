@@ -70,7 +70,6 @@ const HyperparamMenu = ({ params, onInputChange }) => {
                 }
             />
         ),
-        // Add more input components for other type_hint values as needed
     };
 
     // Sets hyperparam values of each hyperparameter under their specific classifier
@@ -87,24 +86,35 @@ const HyperparamMenu = ({ params, onInputChange }) => {
         }));
     };
 
-    // Logs hyper param values FOR TESTING DELETE LATER
+    // sends hyperparamValues to the parent component in order to form the runConfig
     useEffect(() => {
-        onInputChange(hyperparamValues); // sends hyperparamValues to the parent component in order to form the runConfig
+        onInputChange(hyperparamValues);
     }, [hyperparamValues]);
 
     return (
-        <Collapsible className = "hyperparamsCollapse" trigger='Hyperparameters' transitionTime={.1} triggerStyle={{cursor: 'pointer'}}>
+        <Collapsible
+            className='hyperparamsCollapse'
+            trigger='Hyperparameters'
+            transitionTime={0.1}
+            triggerStyle={{ cursor: "pointer" }}
+        >
             {keys.map((key) => (
-                <Collapsible className = "classifiers" trigger={key} key={key} triggerStyle={{cursor: 'pointer'}} transitionTime={.1}>
+                <Collapsible
+                    className='hyperparamsCollapse'
+                    trigger={key}
+                    key={key}
+                    triggerStyle={{ cursor: "pointer" }}
+                    transitionTime={0.1}
+                >
                     {params[key].map((param, index) => {
                         const type = param.type_hint.split(",")[0];
-                        // Ignore type_hints that are not 'int', 'float', or 'string' UNTIL BETTER SOLUTION
+                        // Ignore type_hints that are not 'int', 'float', or 'string'
                         if (!["int", "float", "string"].includes(type)) {
-                            return null; // Skip rendering for ignored type_hints UNTIL BETTER SOLIUTION
+                            return null; // Skip rendering for ignored type_hints
                         }
 
                         return (
-                            <div className='hyperParamDiv' key={index} triggerStyle={{cursor: 'pointer'}}>
+                            <div className='hyperParamDiv' key={index}>
                                 <label
                                     className='hyperParamLabel'
                                     title={

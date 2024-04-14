@@ -76,13 +76,6 @@ const RunConfigurator = ({ models, datasets, onSubmit, tweakRun, onButtonClick }
         }));
     }, [selectedDataset]);
 
-    // Logs hyperparameters when they change FOR TESTING DELETE LATER
-    useEffect(() => {
-        if (hyperparams) {
-            console.log(hyperparams);
-        }
-    }, [hyperparams]);
-
     // Set hyperparamValues
     const handleHyperparamChange = (hyperparamValues) => {
         setRunConfig((prevValues) => ({
@@ -110,12 +103,6 @@ const RunConfigurator = ({ models, datasets, onSubmit, tweakRun, onButtonClick }
         }
         return false;
     };
-
-    useEffect(() => {
-        const submitRun = async () => {
-            const response = await axios.post("/run");
-        };
-    }, []);
 
     return (
         <div className='runConfigurator'>

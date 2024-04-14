@@ -158,6 +158,7 @@ function App() {
                             placeholder='Search...'
                             value={searchTerm}
                             onChange={handleSearch}
+                            className=""
                         />
                         {searchResults.map((run, index) => (
                             <SearchOptions
