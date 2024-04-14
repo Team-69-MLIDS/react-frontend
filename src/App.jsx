@@ -16,6 +16,8 @@ function App() {
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [runData, setRunData] = useState([]);
+    const [tweakRun, setTweakRun] = useState(null);
+    const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 
     axios.defaults.baseURL = "http://localhost:5000/api";
     axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
@@ -24,6 +26,10 @@ function App() {
         keys: ["run_tag", "timestamp"],
         threshold: 0.4, //fuzzy value
     });
+
+    useEffect(() => {
+        console.log(leftOutput);
+    }, [leftOutput]);
 
     // Perform Search
     useEffect(() => {
@@ -95,6 +101,12 @@ function App() {
     const handleRightSelect = (run) => {
         setRightOutput(run);
     };
+    const handleTweakRun = (run) => {
+        // Go to config tab
+        setSelectedTabIndex(0);
+        // Enter data from this run into runconfigurator
+        setTweakRun(run);
+    };
 
     // Set Outputs when new run completes
     const handleRunResponse = (response) => {
@@ -111,7 +123,10 @@ function App() {
         <div className='container'>
             {/* SIDEBAR Tabs */}
             <div className='sidebar'>
-                <Tabs>
+                <Tabs
+                    selectedIndex={selectedTabIndex}
+                    onSelect={(index) => setSelectedTabIndex(index)}
+                >
                     <TabList>
                         <Tab>
                             <div className='tabTitle'>Config</div>
@@ -125,6 +140,7 @@ function App() {
                             models={models}
                             datasets={datasets}
                             onSubmit={handleRunResponse}
+                            tweakRun={tweakRun}
                         />
                     </TabPanel>
                     <TabPanel>
@@ -140,6 +156,7 @@ function App() {
                                 run={run}
                                 onLeftSelect={handleLeftSelect}
                                 onRightSelect={handleRightSelect}
+                                onTweak={handleTweakRun}
                             />
                         ))}
                     </TabPanel>

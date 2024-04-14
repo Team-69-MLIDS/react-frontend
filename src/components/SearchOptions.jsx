@@ -1,12 +1,16 @@
 import "../App.css";
 
-const SearchOptions = ({ run, onLeftSelect, onRightSelect }) => {
+const SearchOptions = ({ run, onLeftSelect, onRightSelect, onTweak }) => {
     const selectLeft = () => {
         onLeftSelect(run);
     };
 
     const selectRight = () => {
         onRightSelect(run);
+    };
+
+    const tweakRun = () => {
+        onTweak(run);
     };
 
     return (
@@ -17,10 +21,13 @@ const SearchOptions = ({ run, onLeftSelect, onRightSelect }) => {
             <h4>Dataset: {run.dataset}</h4>
             <div className='runSelectContainer'>
                 <div className='runSelect' onClick={selectLeft}>
-                    left
+                    Left
+                </div>
+                <div className='runSelectContainer' onClick={tweakRun}>
+                    Tweak
                 </div>
                 <div className='runSelect' onClick={selectRight}>
-                    right
+                    Right
                 </div>
             </div>
         </div>

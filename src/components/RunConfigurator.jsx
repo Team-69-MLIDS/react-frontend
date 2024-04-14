@@ -4,15 +4,19 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import HyperparamMenu from "./HyperparamMenu";
 
-const RunConfigurator = ({ models, datasets, onSubmit }) => {
-    const [selectedModel, setSelectedModel] = useState(null);
-    const [selectedDataset, setSelectedDataset] = useState(null);
+const RunConfigurator = ({ models, datasets, onSubmit, tweakRun }) => {
+    const [selectedModel, setSelectedModel] = useState(
+        tweakRun ? tweakRun.detection_model_name : null
+    );
+    const [selectedDataset, setSelectedDataset] = useState(
+        tweakRun ? tweakRun.dataset : null
+    );
     const [hyperparams, setHyperParams] = useState(null);
     const [runConfig, setRunConfig] = useState({
         runid: "",
-        model_name: "",
-        dataset: "",
-        hyperparameters: null,
+        model_name: tweakRun ? tweakRun.detection_model_name : "",
+        dataset: tweakRun ? tweakRun.dataset : "",
+        hyperparameters: tweakRun ? tweakRun.learner_configuration : null,
     });
 
     axios.defaults.baseURL = "http://localhost:5000/api";
@@ -122,12 +126,16 @@ const RunConfigurator = ({ models, datasets, onSubmit }) => {
                             options={models}
                             inputName='model'
                             onChange={handleModelChange}
+                            tweakValue={
+                                tweakRun ? tweakRun.detection_model_name : null
+                            }
                         />
                         <Dropdown
                             placeholder='Select Dataset'
                             options={datasets}
                             inputName='datasets'
                             onChange={handleDatasetChange}
+                            tweakValue={tweakRun ? tweakRun.dataset : null}
                         />
                     </div>
                     {/* HYPERPARAMS */}
