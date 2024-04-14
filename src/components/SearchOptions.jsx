@@ -3,10 +3,18 @@ import "../App.css";
 const SearchOptions = ({ run, onLeftSelect, onRightSelect, onTweak }) => {
     const selectLeft = () => {
         onLeftSelect(run);
+        scrollToRef();
     };
+
+    const scrollToRef = () => {
+        document.getElementById('compare').scroll({
+          top: 0,
+        });
+      };
 
     const selectRight = () => {
         onRightSelect(run);
+        scrollToRef();
     };
 
     const tweakRun = () => {
@@ -21,13 +29,14 @@ const SearchOptions = ({ run, onLeftSelect, onRightSelect, onTweak }) => {
             <h4>Dataset: {run.dataset}</h4>
             <div className='runSelectContainer'>
                 <div className='runSelect' onClick={selectLeft}>
-                    Left
+                    Copy to Left
                 </div>
                 <div className='runSelectContainer' onClick={tweakRun}>
                     Tweak
                 </div>
+                
                 <div className='runSelect' onClick={selectRight}>
-                    Right
+                    Copy to Right
                 </div>
             </div>
         </div>

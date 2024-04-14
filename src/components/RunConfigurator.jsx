@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import HyperparamMenu from "./HyperparamMenu";
 
-const RunConfigurator = ({ models, datasets, onSubmit, tweakRun }) => {
+const RunConfigurator = ({ models, datasets, onSubmit, tweakRun, onButtonClick }) => {
     const [selectedModel, setSelectedModel] = useState(
         tweakRun ? tweakRun.detection_model_name : null
     );
@@ -18,6 +18,7 @@ const RunConfigurator = ({ models, datasets, onSubmit, tweakRun }) => {
         dataset: tweakRun ? tweakRun.dataset : "",
         hyperparameters: tweakRun ? tweakRun.learner_configuration : null,
     });
+    const [buttonClicked, setButtonClicked] = useState(false); // State variable to track button click
 
     axios.defaults.baseURL = "http://localhost:5000/api";
     axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
@@ -92,13 +93,20 @@ const RunConfigurator = ({ models, datasets, onSubmit, tweakRun }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        try {
-            const response = await axios.post("/run", runConfig);
-            console.log(response.data);
-            onSubmit(response.data);
-        } catch (error) {
-            console.error("Error running engine: ", error);
-            throw error;
+        if (!buttonClicked) {
+            try {
+                onButtonClick(true);
+                setButtonClicked(true); // Disable button after first click
+                const response = await axios.post("/run", runConfig);
+                console.log(response.data);
+                onSubmit(response.data);
+            } catch (error) {
+                console.error("Error running engine: ", error);
+                throw error;
+            } finally {
+                onButtonClick(false);
+                setButtonClicked(false); // Enable button after loading completes
+            }
         }
         return false;
     };
@@ -146,7 +154,7 @@ const RunConfigurator = ({ models, datasets, onSubmit, tweakRun }) => {
                             onInputChange={handleHyperparamChange}
                         />
                     ) : null}
-                    <button type='submit'>Run</button>
+                    <button type='submit' disabled={buttonClicked}>Run</button>
                 </form>
             </div>
         </div>

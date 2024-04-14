@@ -7,6 +7,7 @@ import "react-tabs/style/react-tabs.css";
 import axios from "axios";
 import Fuse from "fuse.js";
 import SearchOptions from "./components/SearchOptions";
+import ReactLoading from 'react-loading';
 
 function App() {
     const [models, setModels] = useState(null);
@@ -16,16 +17,21 @@ function App() {
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [runData, setRunData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     const [tweakRun, setTweakRun] = useState(null);
     const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 
     axios.defaults.baseURL = "http://localhost:5000/api";
     axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
-
+    
     const fuse = new Fuse(runData, {
         keys: ["run_tag", "timestamp"],
-        threshold: 0.4, //fuzzy value
+        threshold: .1, //fuzzy value
     });
+
+    const onButtonClick = (state) => {
+        setIsLoading(state);
+    }
 
     useEffect(() => {
         console.log(leftOutput);
@@ -43,6 +49,7 @@ function App() {
             setSearchResults(runData);
         }
     }, [searchTerm, runData]);
+
 
     // Getting Run Data
     const fetchRunData = async () => {
@@ -94,6 +101,7 @@ function App() {
         fetchDatasets();
     }, []);
 
+
     // Set Outputs when clicked
     const handleLeftSelect = (run) => {
         setLeftOutput(run);
@@ -140,6 +148,7 @@ function App() {
                             models={models}
                             datasets={datasets}
                             onSubmit={handleRunResponse}
+                            onButtonClick={onButtonClick}
                             tweakRun={tweakRun}
                         />
                     </TabPanel>
@@ -163,26 +172,36 @@ function App() {
                 </Tabs>
             </div>
             {/* Compare Window */}
-            <div className='compare'>
+            <div id='compare'>
                 <div className='outputContainer'>
-                    {leftOutput ? (
-                        <RunOutput
-                            RunTitle={leftOutput.run_tag}
-                            model={leftOutput.detection_model_name}
-                            table={leftOutput.learner_performance_per_attack}
-                            overall={leftOutput.learner_overalls}
-                            matrices={leftOutput.confusion_matrices}
-                        />
-                    ) : null}
-                    {rightOutput ? (
-                        <RunOutput
-                            RunTitle={rightOutput.run_tag}
-                            model={rightOutput.detection_model_name}
-                            table={rightOutput.learner_performance_per_attack}
-                            overall={rightOutput.learner_overalls}
-                            matrices={rightOutput.confusion_matrices}
-                        />
-                    ) : null}
+                            {isLoading ? (
+                                <ReactLoading className="loading" type={'spin'} color={'#007bff'} height={'100px'} width={'100px'} />
+                            ) : (
+                                <>
+                                    {leftOutput && (
+                                        <RunOutput
+                                            RunTitle={leftOutput.run_tag}
+                                            dataset={leftOutput.dataset}
+                                            model={leftOutput.detection_model_name}
+                                            table={leftOutput.learner_performance_per_attack}
+                                            overall={leftOutput.learner_overalls}
+                                            matrices={leftOutput.confusion_matrices}
+                                        />
+                                    )}
+                                    {rightOutput && (
+                                        <RunOutput
+                                            RunTitle={rightOutput.run_tag}
+                                            dataset={rightOutput.dataset}
+                                            model={rightOutput.detection_model_name}
+                                            table={rightOutput.learner_performance_per_attack}
+                                            overall={rightOutput.learner_overalls}
+                                            matrices={rightOutput.confusion_matrices}
+                                        />
+                                    )}
+                                </>
+                            )}
+
+                    
                 </div>
             </div>
         </div>
