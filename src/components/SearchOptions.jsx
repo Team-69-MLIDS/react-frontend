@@ -24,9 +24,9 @@ const SearchOptions = ({ run, onLeftSelect, onRightSelect, onTweak }) => {
     return (
         <div className='searchList'>
             <h3>RunID: {run.run_tag}</h3>
-            <h4>Date: {run.timestamp}</h4>
-            <h4>Model: {run.detection_model_name}</h4>
-            <h4>Dataset: {run.dataset}</h4>
+            <h5>Date: {run.timestamp}</h5>
+            <h5>Model: {run.detection_model_name}</h5>
+            <h5>Dataset: {run.dataset}</h5>
             <div className='runSelectContainer'>
                 <div className='runSelect' onClick={selectLeft}>
                     Copy to Left

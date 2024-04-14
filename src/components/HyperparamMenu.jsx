@@ -74,16 +74,40 @@ const HyperparamMenu = ({ params, onInputChange }) => {
 
     // Sets hyperparam values of each hyperparameter under their specific classifier
     const handleInputChange = (paramName, value, classifier, id) => {
-        setHyperparamValues((prevValues) => ({
-            ...prevValues,
-            [classifier]: {
-                ...(prevValues[classifier] || {}),
-                [paramName]: {
-                    v: value,
-                    id: id,
-                },
-            },
-        }));
+        setHyperparamValues((prevValues) => {
+            // Copy previous values
+            let updatedValues = { ...prevValues };
+
+            // If the value is blank, remove the item from the list
+            if (value === "") {
+                // Check if the classifier exists
+                if (updatedValues[classifier]) {
+                    // Check if the paramName exists within the classifier
+                    if (updatedValues[classifier][paramName]) {
+                        delete updatedValues[classifier][paramName];
+                    }
+
+                    // If there are no more parameters left within the classifier, remove the classifier
+                    if (Object.keys(updatedValues[classifier]).length === 0) {
+                        delete updatedValues[classifier];
+                    }
+                }
+            } else {
+                // Update or add the value if it's not blank
+                updatedValues = {
+                    ...updatedValues,
+                    [classifier]: {
+                        ...(updatedValues[classifier] || {}),
+                        [paramName]: {
+                            v: value,
+                            id: id,
+                        },
+                    },
+                };
+            }
+
+            return updatedValues;
+        });
     };
 
     // sends hyperparamValues to the parent component in order to form the runConfig
@@ -93,14 +117,15 @@ const HyperparamMenu = ({ params, onInputChange }) => {
 
     return (
         <Collapsible
-            className='hyperparamsCollapse'
+            className='hyperparamsCollapseClosed'
+            openedClassName='hyperparamsCollapseOpened'
             trigger='Hyperparameters'
             transitionTime={0.1}
-            triggerStyle={{ cursor: "pointer" }}
+            // triggerStyle={{ cursor: "pointer" }}
         >
             {keys.map((key) => (
                 <Collapsible
-                    className='hyperparamsCollapse'
+                    className='hyperparamsCollapseClosed'
                     trigger={key}
                     key={key}
                     triggerStyle={{ cursor: "pointer" }}

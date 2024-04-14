@@ -4,7 +4,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import HyperparamMenu from "./HyperparamMenu";
 
-const RunConfigurator = ({ models, datasets, onSubmit, tweakRun, onButtonClick }) => {
+const RunConfigurator = ({
+    models,
+    datasets,
+    onSubmit,
+    tweakRun,
+    onButtonClick,
+}) => {
     const [selectedModel, setSelectedModel] = useState(
         tweakRun ? tweakRun.detection_model_name : null
     );
@@ -95,6 +101,7 @@ const RunConfigurator = ({ models, datasets, onSubmit, tweakRun, onButtonClick }
                 onSubmit(response.data);
             } catch (error) {
                 console.error("Error running engine: ", error);
+                alert("There was an error. Please check your configuration.");
                 throw error;
             } finally {
                 onButtonClick(false);
@@ -141,7 +148,9 @@ const RunConfigurator = ({ models, datasets, onSubmit, tweakRun, onButtonClick }
                             onInputChange={handleHyperparamChange}
                         />
                     ) : null}
-                    <button type='submit' disabled={buttonClicked}>Run</button>
+                    <button type='submit' disabled={buttonClicked}>
+                        Run
+                    </button>
                 </form>
             </div>
         </div>
