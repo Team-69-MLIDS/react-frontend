@@ -18,15 +18,6 @@ const Dropdown = ({
         onChange(inputName, selectedOption); // Pass the selected option to the parent component
     };
 
-    // For testing Tweak Button
-    useEffect(() => {
-        console.log(selected);
-    }, []);
-
-    useEffect(() => {
-        console.log("Tweak: " + tweakValue); 
-    }, [tweakValue]);
-
     return (
         <Select
             className='dropdown'

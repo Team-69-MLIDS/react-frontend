@@ -29,9 +29,9 @@ const RunConfigurator = ({
     axios.defaults.baseURL = "http://localhost:5000/api";
     axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
 
-    useEffect(() => {
-        console.log(runConfig); // This will log the updated runConfig state
-    }, [runConfig]);
+    // useEffect(() => {
+    //     console.log(runConfig); // This will log the updated runConfig state
+    // }, [runConfig]);
 
     const handleModelChange = (inputName, model) => {
         setSelectedModel(model.value); // Update selected model in state
@@ -92,6 +92,10 @@ const RunConfigurator = ({
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        if (runConfig.runid == "") {
+            alert("Please enter a Run ID");
+            return false;
+        }
         if (!buttonClicked) {
             try {
                 onButtonClick(true);

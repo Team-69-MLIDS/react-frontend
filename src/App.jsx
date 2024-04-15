@@ -32,6 +32,22 @@ function App() {
         threshold: 0.1, //fuzzy value
     });
 
+    const filterByDate = (runs) => {
+        // Convert selectedRange to Date objects if needed
+        const startDate = selectedRange[0];
+        const endDate = selectedRange[1];
+
+        const filteredResults = runs.filter((run) => {
+            // Convert timestamp to a Date object
+            const timestampDate = new Date(run.timestamp);
+
+            // Compare timestampDate with selected range
+            return timestampDate >= startDate && timestampDate <= endDate;
+        });
+
+        return filteredResults;
+    };
+
     // Perform Search
     useEffect(() => {
         if (searchTerm) {
@@ -40,26 +56,17 @@ function App() {
             const fixedResults = results.map((run) => run.item);
 
             // Filter results based on the date range
-            const filteredResults = fixedResults.filter((run) => {
-                // Assuming `run.timestamp` is a Date object
-                return (
-                    run.timestamp >= selectedRange[0] &&
-                    run.timestamp <= selectedRange[1]
-                );
-            });
-
-            setSearchResults(filteredResults);
+            setSearchResults(
+                selectedRange.length != 0
+                    ? filterByDate(fixedResults)
+                    : fixedResults
+            );
         } else {
             // Show all data when searchTerm is null
-            const filteredResults = runData.filter((run) => {
-                // Assuming `run.timestamp` is a Date object
-                return (
-                    run.timestamp >= selectedRange[0] &&
-                    run.timestamp <= selectedRange[1]
-                );
-            });
 
-            setSearchResults(filteredResults);
+            setSearchResults(
+                selectedRange.length != 0 ? filterByDate(runData) : runData
+            );
         }
     }, [searchTerm, runData, selectedRange]);
 
@@ -116,17 +123,21 @@ function App() {
         };
         fetchDatasets();
     }, []);
-    useEffect(() => {
-        // FOR CALENDAR TESTING
-        console.log(selectedRange);
-    }, [selectedRange]);
 
     // Set Outputs when clicked
     const handleLeftSelect = (run) => {
-        setLeftOutput(run);
+        if (leftOutput == run) {
+            setLeftOutput(null);
+        } else {
+            setLeftOutput(run);
+        }
     };
     const handleRightSelect = (run) => {
-        setRightOutput(run);
+        if (rightOutput == run) {
+            setRightOutput(null);
+        } else {
+            setRightOutput(run);
+        }
     };
     const handleTweakRun = (run) => {
         // Go to config tab
@@ -146,10 +157,12 @@ function App() {
         return <div>Loading...</div>;
     }
 
-    // UNIFNISHED NEED TO FIGURE OUT DESELECTING RANGE
+    // Handles selecting and deselecting a date range
     const handleDateSelection = (range) => {
-        console.log(range);
-        if (range[1].getTIme() - range[0].getTime() === 86399999) {
+        if (
+            selectedRange[0] &&
+            range[1].getTime() - range[0].getTime() === 86399999
+        ) {
             setSelectedRange([]);
         } else {
             setSelectedRange(range);
@@ -199,6 +212,7 @@ function App() {
                                     returnValue='range'
                                     view='month'
                                     calendarType='gregory'
+                                    value={selectedRange}
                                 />
                             </div>
                         </div>
