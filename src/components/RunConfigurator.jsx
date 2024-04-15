@@ -29,11 +29,7 @@ const RunConfigurator = ({
     axios.defaults.baseURL = "http://localhost:5000/api";
     axios.defaults.headers.post["Access-Control-Allow-Origin"] = "*";
 
-    // useEffect(() => {
-    //     console.log(runConfig); // This will log the updated runConfig state
-    // }, [runConfig]);
-
-    const handleModelChange = (inputName, model) => {
+    const handleModelChange = (model) => {
         setSelectedModel(model.value); // Update selected model in state
     };
 

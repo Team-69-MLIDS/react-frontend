@@ -15,7 +15,7 @@ const Dropdown = ({
 
     const handleChange = (selectedOption) => {
         setSelected(selectedOption);
-        onChange(inputName, selectedOption); // Pass the selected option to the parent component
+        onChange(selectedOption); // Pass the selected option to the parent component
     };
 
     return (
