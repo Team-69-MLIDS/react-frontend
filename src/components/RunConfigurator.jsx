@@ -33,8 +33,8 @@ const RunConfigurator = ({
         setSelectedModel(model.value); // Update selected model in state
     };
 
-    const handleDatasetChange = (inputName, selectedDataset) => {
-        setSelectedDataset(selectedDataset.value); // Update selected dataset in state
+    const handleDatasetChange = (dataset) => {
+        setSelectedDataset(dataset.value); // Update selected dataset in state
     };
 
     const handleRunIDChange = (e) => {
@@ -45,6 +45,10 @@ const RunConfigurator = ({
     };
 
     // HYPERPARAMS
+
+    useEffect(() => {
+        console.log(tweakRun);
+    }, []);
 
     // Get hyperparameters for currently selected model
     useEffect(() => {
@@ -77,6 +81,10 @@ const RunConfigurator = ({
             dataset: selectedDataset ? selectedDataset : null,
         }));
     }, [selectedDataset]);
+
+    useEffect(() => {
+        console.log(runConfig);
+    }, [runConfig]);
 
     // Set hyperparamValues
     const handleHyperparamChange = (hyperparamValues) => {
@@ -146,6 +154,9 @@ const RunConfigurator = ({
                         <HyperparamMenu
                             params={hyperparams}
                             onInputChange={handleHyperparamChange}
+                            tweakParams={
+                                tweakRun ? tweakRun.learner_configuration : null
+                            }
                         />
                     ) : null}
                     <button type='submit' disabled={buttonClicked}>

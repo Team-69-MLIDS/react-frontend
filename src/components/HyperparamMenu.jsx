@@ -2,21 +2,21 @@ import { useEffect, useState } from "react";
 import "../App.css";
 import Collapsible from "react-collapsible";
 
-const HyperparamMenu = ({ params, onInputChange }) => {
+const HyperparamMenu = ({ params, onInputChange, tweakParams }) => {
     const [hyperparamValues, setHyperparamValues] = useState({});
 
     const keys = Object.keys(params);
 
+    useEffect(() => {
+        console.log(tweakParams);
+        setHyperparamValues(tweakParams);
+    }, []);
+
     const InputComponents = {
-        string: (param, classifier) => (
+        string: (param, classifier, tweakParam) => (
             <input
                 type='text'
                 placeholder='string'
-                defaultValue={
-                    param.default !== "no default" && param.default !== "None"
-                        ? param.default
-                        : ""
-                }
                 className='hyperParamInput'
                 onChange={(e) =>
                     handleInputChange(
@@ -26,18 +26,21 @@ const HyperparamMenu = ({ params, onInputChange }) => {
                         param.id
                     )
                 }
+                defaultValue={
+                    tweakParam
+                        ? tweakParam
+                        : param.default !== "no default" &&
+                          param.default !== "None"
+                        ? param.default
+                        : ""
+                }
             />
         ),
-        int: (param, classifier) => (
+        int: (param, classifier, tweakParam) => (
             <input
                 type='number'
                 placeholder='int'
                 step={1}
-                defaultValue={
-                    param.default !== "no default" && param.default !== "None"
-                        ? param.default
-                        : ""
-                }
                 className='hyperParamInput'
                 onChange={(e) =>
                     handleInputChange(
@@ -47,18 +50,21 @@ const HyperparamMenu = ({ params, onInputChange }) => {
                         param.id
                     )
                 }
+                defaultValue={
+                    tweakParam
+                        ? tweakParam
+                        : param.default !== "no default" &&
+                          param.default !== "None"
+                        ? param.default
+                        : ""
+                }
             />
         ),
-        float: (param, classifier) => (
+        float: (param, classifier, tweakParam) => (
             <input
                 type='number'
                 placeholder='float'
                 step={0.01}
-                defaultValue={
-                    param.default !== "no default" && param.default !== "None"
-                        ? param.default
-                        : ""
-                }
                 className='hyperParamInput'
                 onChange={(e) =>
                     handleInputChange(
@@ -67,6 +73,14 @@ const HyperparamMenu = ({ params, onInputChange }) => {
                         classifier,
                         param.id
                     )
+                }
+                defaultValue={
+                    tweakParam
+                        ? tweakParam
+                        : param.default !== "no default" &&
+                          param.default !== "None"
+                        ? param.default
+                        : ""
                 }
             />
         ),
@@ -79,7 +93,7 @@ const HyperparamMenu = ({ params, onInputChange }) => {
             let updatedValues = { ...prevValues };
 
             // If the value is blank, remove the item from the list
-            if (value === "") {
+            if (value === "" || isNaN(value)) {
                 // Check if the classifier exists
                 if (updatedValues[classifier]) {
                     // Check if the paramName exists within the classifier
@@ -105,10 +119,13 @@ const HyperparamMenu = ({ params, onInputChange }) => {
                     },
                 };
             }
-
             return updatedValues;
         });
     };
+
+    useEffect(() => {
+        console.log(hyperparamValues);
+    }, [hyperparamValues]);
 
     // sends hyperparamValues to the parent component in order to form the runConfig
     useEffect(() => {
@@ -137,7 +154,6 @@ const HyperparamMenu = ({ params, onInputChange }) => {
                         if (!["int", "float", "string"].includes(type)) {
                             return null; // Skip rendering for ignored type_hints
                         }
-
                         return (
                             <div className='hyperParamDiv' key={index}>
                                 <label
@@ -148,7 +164,13 @@ const HyperparamMenu = ({ params, onInputChange }) => {
                                 >
                                     {param.name}:
                                 </label>
-                                {InputComponents[type](param, key)}
+                                {InputComponents[type](
+                                    param,
+                                    key,
+                                    tweakParams[key][param.name]
+                                        ? tweakParams[key][param.name].v
+                                        : null
+                                )}
                             </div>
                         );
                     })}

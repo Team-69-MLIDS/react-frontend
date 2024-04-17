@@ -204,7 +204,7 @@ function App() {
                                 className='searchBar'
                             />
                             <div className='calendarContainer'>
-                                <h2>Select Date Range</h2>
+                                <h3>Select Date Range</h3>
                                 <Calendar
                                     className='calendar'
                                     onChange={handleDateSelection}
