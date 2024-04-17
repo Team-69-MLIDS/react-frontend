@@ -10,6 +10,7 @@ import SearchOptions from "./components/SearchOptions";
 import ReactLoading from "react-loading";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import Collapsible from "react-collapsible";
 
 function App() {
     const [models, setModels] = useState(null);
@@ -204,16 +205,22 @@ function App() {
                                 className='searchBar'
                             />
                             <div className='calendarContainer'>
-                                <h3>Select Date Range</h3>
-                                <Calendar
-                                    className='calendar'
-                                    onChange={handleDateSelection}
-                                    selectRange={true}
-                                    returnValue='range'
-                                    view='month'
-                                    calendarType='gregory'
-                                    value={selectedRange}
-                                />
+                                <Collapsible
+                                    className='hyperparamsCollapseClosed'
+                                    openedClassName='hyperparamsCollapseOpened'
+                                    trigger='Select Date Range'
+                                    transitionTime={0.1}
+                                >
+                                    <Calendar
+                                        className='calendar'
+                                        onChange={handleDateSelection}
+                                        selectRange={true}
+                                        returnValue='range'
+                                        view='month'
+                                        calendarType='gregory'
+                                        value={selectedRange}
+                                    />
+                                </Collapsible>
                             </div>
                         </div>
                         {searchResults.map((run, index) => (

@@ -8,7 +8,6 @@ const HyperparamMenu = ({ params, onInputChange, tweakParams }) => {
     const keys = Object.keys(params);
 
     useEffect(() => {
-        console.log(tweakParams);
         setHyperparamValues(tweakParams);
     }, []);
 
@@ -30,6 +29,7 @@ const HyperparamMenu = ({ params, onInputChange, tweakParams }) => {
                     tweakParam
                         ? tweakParam
                         : param.default !== "no default" &&
+                          param.default !== "No default" &&
                           param.default !== "None"
                         ? param.default
                         : ""
@@ -54,6 +54,7 @@ const HyperparamMenu = ({ params, onInputChange, tweakParams }) => {
                     tweakParam
                         ? tweakParam
                         : param.default !== "no default" &&
+                          param.default !== "No default" &&
                           param.default !== "None"
                         ? param.default
                         : ""
@@ -78,6 +79,7 @@ const HyperparamMenu = ({ params, onInputChange, tweakParams }) => {
                     tweakParam
                         ? tweakParam
                         : param.default !== "no default" &&
+                          param.default !== "No default" &&
                           param.default !== "None"
                         ? param.default
                         : ""
@@ -122,10 +124,10 @@ const HyperparamMenu = ({ params, onInputChange, tweakParams }) => {
             return updatedValues;
         });
     };
-
-    useEffect(() => {
-        console.log(hyperparamValues);
-    }, [hyperparamValues]);
+    // TESTING DELETE LATER
+    // useEffect(() => {
+    //     console.log(hyperparamValues);
+    // }, [hyperparamValues]);
 
     // sends hyperparamValues to the parent component in order to form the runConfig
     useEffect(() => {
@@ -138,22 +140,30 @@ const HyperparamMenu = ({ params, onInputChange, tweakParams }) => {
             openedClassName='hyperparamsCollapseOpened'
             trigger='Hyperparameters'
             transitionTime={0.1}
-            // triggerStyle={{ cursor: "pointer" }}
         >
             {keys.map((key) => (
                 <Collapsible
                     className='hyperparamsCollapseClosed'
                     trigger={key}
                     key={key}
-                    triggerStyle={{ cursor: "pointer" }}
                     transitionTime={0.1}
                 >
                     {params[key].map((param, index) => {
-                        const type = param.type_hint.split(",")[0];
+                        var type = param.type_hint.split(",")[0];
                         // Ignore type_hints that are not 'int', 'float', or 'string'
-                        if (!["int", "float", "string"].includes(type)) {
+                        if (!["int", "float", "string", "str"].includes(type)) {
                             return null; // Skip rendering for ignored type_hints
                         }
+                        if (type == "str") {
+                            type = "string";
+                        }
+                        // checks if tweaking params are null or not
+                        const tweakParamValue =
+                            tweakParams &&
+                            tweakParams[key] &&
+                            tweakParams[key][param.name]
+                                ? tweakParams[key][param.name].v
+                                : null;
                         return (
                             <div className='hyperParamDiv' key={index}>
                                 <label
@@ -167,9 +177,7 @@ const HyperparamMenu = ({ params, onInputChange, tweakParams }) => {
                                 {InputComponents[type](
                                     param,
                                     key,
-                                    tweakParams[key][param.name]
-                                        ? tweakParams[key][param.name].v
-                                        : null
+                                    tweakParamValue
                                 )}
                             </div>
                         );

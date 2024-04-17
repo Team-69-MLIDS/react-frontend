@@ -46,9 +46,10 @@ const RunConfigurator = ({
 
     // HYPERPARAMS
 
-    useEffect(() => {
-        console.log(tweakRun);
-    }, []);
+    // FOR TESTING TWEAK RUNS
+    // useEffect(() => {
+    //     console.log(tweakRun);
+    // }, []);
 
     // Get hyperparameters for currently selected model
     useEffect(() => {
@@ -74,6 +75,11 @@ const RunConfigurator = ({
         }
     }, [selectedModel]);
 
+    // FOR TESTING HYPER PARAM VALUES
+    useEffect(() => {
+        console.log(hyperparams);
+    }, [hyperparams]);
+
     // Sets dataset in runconfig when dataset changes
     useEffect(() => {
         setRunConfig((prevValues) => ({
@@ -82,6 +88,7 @@ const RunConfigurator = ({
         }));
     }, [selectedDataset]);
 
+    // FOR TESTING IF RUN CONFIG IS RIGHT
     useEffect(() => {
         console.log(runConfig);
     }, [runConfig]);
