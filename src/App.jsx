@@ -206,8 +206,6 @@ function App() {
                             />
                             <div className='calendarContainer'>
                                 <Collapsible
-                                    className='hyperparamsCollapseClosed'
-                                    openedClassName='hyperparamsCollapseOpened'
                                     trigger='Select Date Range'
                                     transitionTime={0.1}
                                 >

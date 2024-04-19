@@ -53,8 +53,8 @@
 
 .outputContainer {
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    justify-content: center;
+    align-items: center;
     flex-direction: row;
 }
 
@@ -160,14 +160,6 @@
     margin: 0 0.25rem;
 }
 
-.hyperparamsCollapseClosed {
-    cursor: pointer;
-}
-
-.hyperparamsCollapseOpened {
-    cursor: pointer;
-}
-
 .loading {
     position: absolute;
     top: 50%;
@@ -175,6 +167,11 @@
     transform: translate(-50%, -50%);
 }
 
+/* Collapsable */
+
+.Collapsible {
+    cursor: pointer;
+}
 .Collapsible__trigger {
     display: block;
     font-weight: 400;

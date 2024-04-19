@@ -7,10 +7,12 @@ const HyperparamMenu = ({ params, onInputChange, tweakParams }) => {
 
     const keys = Object.keys(params);
 
+    // if user is tweaking a past run it starts the hyperparams as the ones used in the past run
     useEffect(() => {
         setHyperparamValues(tweakParams);
     }, []);
 
+    // Used to dynamically create inputs based on hyperparam types
     const InputComponents = {
         string: (param, classifier, tweakParam) => (
             <input
@@ -124,10 +126,6 @@ const HyperparamMenu = ({ params, onInputChange, tweakParams }) => {
             return updatedValues;
         });
     };
-    // TESTING DELETE LATER
-    // useEffect(() => {
-    //     console.log(hyperparamValues);
-    // }, [hyperparamValues]);
 
     // sends hyperparamValues to the parent component in order to form the runConfig
     useEffect(() => {
@@ -135,19 +133,9 @@ const HyperparamMenu = ({ params, onInputChange, tweakParams }) => {
     }, [hyperparamValues]);
 
     return (
-        <Collapsible
-            className='hyperparamsCollapseClosed'
-            openedClassName='hyperparamsCollapseOpened'
-            trigger='Hyperparameters'
-            transitionTime={0.1}
-        >
+        <Collapsible trigger='Hyperparameters' transitionTime={0.1}>
             {keys.map((key) => (
-                <Collapsible
-                    className='hyperparamsCollapseClosed'
-                    trigger={key}
-                    key={key}
-                    transitionTime={0.1}
-                >
+                <Collapsible trigger={key} key={key} transitionTime={0.1}>
                     {params[key].map((param, index) => {
                         var type = param.type_hint.split(",")[0];
                         // Ignore type_hints that are not 'int', 'float', or 'string'
