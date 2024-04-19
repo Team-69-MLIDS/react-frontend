@@ -23,21 +23,22 @@ const SearchOptions = ({ run, onLeftSelect, onRightSelect, onTweak }) => {
 
     return (
         <div className='searchList'>
-            <h3>RunID: {run.run_tag}</h3>
-            <h5>Date: {run.timestamp}</h5>
-            <h5>Model: {run.detection_model_name}</h5>
-            <h5>Dataset: {run.dataset}</h5>
+            <h3 className='searchOptions'>RunID: {run.run_tag}</h3>
+            <h5 className='searchOptions'>Date: {run.timestamp}</h5>
+            <h5 className='searchOptions'>
+                Model: {run.detection_model_name.toUpperCase()}
+            </h5>
+            <h5 className='searchOptions'>Dataset: {run.dataset}</h5>
             <div className='runSelectContainer'>
-                <div className='runSelect' onClick={selectLeft}>
-                    Copy to Left
-                </div>
-                <div className='runSelect' onClick={tweakRun}>
+                <button className='runSelect' onClick={selectLeft}>
+                    Display Left
+                </button>
+                <button className='runSelect' onClick={tweakRun}>
                     Tweak
-                </div>
-
-                <div className='runSelect' onClick={selectRight}>
-                    Copy to Right
-                </div>
+                </button>
+                <button className='runSelect' onClick={selectRight}>
+                    Display Right
+                </button>
             </div>
         </div>
     );

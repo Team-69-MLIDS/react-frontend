@@ -76,9 +76,9 @@ const RunConfigurator = ({
     }, [selectedModel]);
 
     // FOR TESTING HYPER PARAM VALUES
-    useEffect(() => {
-        console.log(hyperparams);
-    }, [hyperparams]);
+    // useEffect(() => {
+    //     console.log(hyperparams);
+    // }, [hyperparams]);
 
     // Sets dataset in runconfig when dataset changes
     useEffect(() => {

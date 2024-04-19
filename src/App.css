@@ -144,6 +144,10 @@
     justify-content: left;
 }
 
+.searchOptions {
+    margin: 0.5rem;
+}
+
 .runSelectContainer {
     display: flex;
     flex-direction: row;
@@ -153,8 +157,7 @@
 .runSelect {
     cursor: pointer;
     font-size: 14px;
-    color: blue;
-    text-decoration: underline;
+    margin: 0 0.25rem;
 }
 
 .hyperparamsCollapseClosed {
