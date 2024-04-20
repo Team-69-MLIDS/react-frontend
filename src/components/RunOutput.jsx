@@ -9,18 +9,20 @@ const RunOutput = ({ RunTitle, model, dataset, table, overall, matrices }) => {
     return (
         <div className='runOutput'>
             <div className='outputHeading'>
-                <h1>{RunTitle}</h1>
-                <h2>Model: {model.toUpperCase()}</h2>
-                <h2>Dataset: {dataset}</h2>
+                <h2>{RunTitle}</h2>
+                <h3>Model: {model.toUpperCase()}</h3>
+                <h3>Dataset: {dataset}</h3>
             </div>
             <div className='runOutputColumns'>
                 {keys.map((key) => (
-                    <OutputColumn
-                        algorithm={key}
-                        tableData={table[key]}
-                        overallData={overall[key]}
-                        matrix={matrices[key]}
-                    />
+                    <Collapsible trigger={key} transitionTime={0.1}>
+                        <OutputColumn
+                            algorithm={key}
+                            tableData={table[key]}
+                            overallData={overall[key]}
+                            matrix={matrices[key]}
+                        />
+                    </Collapsible>
                 ))}
             </div>
             <div className='outputHyperparameters'></div>

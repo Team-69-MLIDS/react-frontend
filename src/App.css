@@ -54,7 +54,7 @@
 .outputContainer {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: row;
 }
 
@@ -171,6 +171,7 @@
 
 .Collapsible {
     cursor: pointer;
+    width: 100%;
 }
 .Collapsible__trigger {
     display: block;
@@ -220,8 +221,10 @@
 
 .calendarContainer {
     text-align: center;
-    display: flex;
-    justify-content: center;
+}
+
+.react-calendar {
+    width: 100% !important;
 }
 
 .searchBar {
