@@ -89,9 +89,9 @@ const RunConfigurator = ({
     }, [selectedDataset]);
 
     // FOR TESTING IF RUN CONFIG IS RIGHT
-    useEffect(() => {
-        console.log(runConfig);
-    }, [runConfig]);
+    // useEffect(() => {
+    //     console.log(runConfig);
+    // }, [runConfig]);
 
     // Set hyperparamValues
     const handleHyperparamChange = (hyperparamValues) => {

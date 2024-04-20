@@ -26,7 +26,10 @@ const OutputColumn = ({ algorithm, tableData, overallData, matrix }) => {
                 ))}
             </div>
             <div className='confusionMatrix'>
-                <img className="confusionMatrixImage" src={"data:image/png;base64," + matrix} />
+                <img
+                    className='confusionMatrixImage'
+                    src={"data:image/png;base64," + matrix}
+                />
             </div>
         </div>
     );
