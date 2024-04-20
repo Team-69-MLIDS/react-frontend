@@ -4,8 +4,6 @@ import Collapsible from "react-collapsible";
 
 const RunOutput = ({ RunTitle, model, dataset, table, overall, matrices }) => {
     const keys = Object.keys(table);
-
-    console.log("Table Keys: " + keys);
     return (
         <div className='runOutput'>
             <div className='outputHeading'>
@@ -15,7 +13,7 @@ const RunOutput = ({ RunTitle, model, dataset, table, overall, matrices }) => {
             </div>
             <div className='runOutputColumns'>
                 {keys.map((key) => (
-                    <Collapsible trigger={key} transitionTime={0.1}>
+                    <Collapsible trigger={key} transitionTime={0.1} key={key}>
                         <OutputColumn
                             algorithm={key}
                             tableData={table[key]}
