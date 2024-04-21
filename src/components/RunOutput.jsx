@@ -8,22 +8,43 @@ const RunOutput = ({ RunTitle, model, dataset, table, overall, matrices }) => {
         <div className='runOutput'>
             <div className='outputHeading'>
                 <h2>{RunTitle}</h2>
-                <h3>Model: {model.toUpperCase()}</h3>
+                <h3>Model: {model}</h3>
                 <h3>Dataset: {dataset}</h3>
             </div>
-            <div className='runOutputColumns'>
-                {keys.map((key) => (
-                    <Collapsible trigger={key} transitionTime={0.1} key={key}>
-                        <OutputColumn
-                            algorithm={key}
-                            tableData={table[key]}
-                            overallData={overall[key]}
-                            matrix={matrices[key]}
-                        />
-                    </Collapsible>
-                ))}
+            {/* I ADDED THIS DIV TO SEPARATE THE MAIN OUTPUT FROM THE REST */}
+            <div className='mainOutputColumn'>
+                <Collapsible
+                    trigger={model} //USED THE MODEL INSTEAD OF THE KEYS TO MAKE SURE I ALWAYS FIND THE MAIN
+                    transitionTime={0.1}
+                    key={model}
+                    open={true} //SET THE MAIN TO BE OPEN BY DEFAULT
+                >
+                    <OutputColumn // THE ACTUAL COLUMN
+                        algorithm={model}
+                        tableData={table[model]}
+                        overallData={overall[model]}
+                        matrix={matrices[model]}
+                    />
+                </Collapsible>
             </div>
-            <div className='outputHyperparameters'></div>
+            <div className='runOutputColumns'>
+                {keys.map((key) =>
+                    key === model ? null : ( // SKIPS RENDERING OF THE MAIN COLUMN IN THE CLASSIFIER SECTION
+                        <Collapsible
+                            trigger={key}
+                            transitionTime={0.1}
+                            key={key}
+                        >
+                            <OutputColumn
+                                algorithm={key}
+                                tableData={table[key]}
+                                overallData={overall[key]}
+                                matrix={matrices[key]}
+                            />
+                        </Collapsible>
+                    )
+                )}
+            </div>
         </div>
     );
 };
