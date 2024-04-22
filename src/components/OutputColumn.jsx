@@ -1,15 +1,17 @@
 import "../App.css";
 import OutputTable from "./OutputTable";
 const OutputColumn = ({ algorithm, tableData, overallData, matrix }) => {
-    const textPrompts = [
-        "Average Accuracy: ",
-        "Average Precision: ",
-        "Average Recall: ",
-        "Average F1: ",
-        "Unrounded F1: ",
-        "Macro Average: ",
-        "Weighted Average: ",
-    ];
+    const textPrompts = {
+        accuracy: "Average Accuracy: ",
+        macro_avg_precision: "Macro Average Precision: ",
+        macro_avg_recall: "Macro Average Recall: ",
+        macro_avg_f1_score: "Macro Average F1: ",
+        macro_avg_support: "Macro Average Support: ",
+        weighted_avg_f1_score: "Weighted Average F1: ",
+        weighted_avg_precision: "Weighted Average Precision: ",
+        weighted_avg_recall: "Weighted Average Recall: ",
+        weighted_avg_support: "Weighted Average Support: ",
+    };
     const keys = Object.keys(overallData);
     return (
         <div className='outputColumn'>
@@ -18,10 +20,10 @@ const OutputColumn = ({ algorithm, tableData, overallData, matrix }) => {
                 <OutputTable data={tableData} />
             </div>
             <div className='averageValues'>
-                {textPrompts.map((prompt, index) => (
+                {keys.map((key, index) => (
                     <p key={index}>
-                        {prompt}
-                        {overallData[keys[index]].toFixed(2)}
+                        {textPrompts[key]}
+                        {overallData[key].toFixed(6)}
                     </p>
                 ))}
             </div>

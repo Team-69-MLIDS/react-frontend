@@ -70,7 +70,6 @@ const RunConfigurator = ({
         }
     }, [selectedModel]);
 
-
     // Sets dataset in runconfig when dataset changes
     useEffect(() => {
         setRunConfig((prevValues) => ({
@@ -98,7 +97,6 @@ const RunConfigurator = ({
                 onButtonClick(true);
                 setButtonClicked(true); // Disable button after first click
                 const response = await axios.post("/run", runConfig);
-                console.log(response.data);
                 onSubmit(response.data);
             } catch (error) {
                 console.error("Error running engine: ", error);
