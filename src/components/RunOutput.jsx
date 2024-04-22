@@ -30,18 +30,16 @@ const RunOutput = ({ RunTitle, model, dataset, table, overall, matrices }) => {
             <div className='runOutputColumns'>
                 {keys.map((key) =>
                     key === model ? null : ( // SKIPS RENDERING OF THE MAIN COLUMN IN THE CLASSIFIER SECTION
-                        <Collapsible
-                            trigger={key}
-                            transitionTime={0.1}
-                            key={key}
-                        >
-                            <OutputColumn
-                                algorithm={key}
-                                tableData={table[key]}
-                                overallData={overall[key]}
-                                matrix={matrices[key]}
-                            />
-                        </Collapsible>
+                        <div className='columnContainer' key={key}>
+                            <Collapsible trigger={key} transitionTime={0.1}>
+                                <OutputColumn
+                                    algorithm={key}
+                                    tableData={table[key]}
+                                    overallData={overall[key]}
+                                    matrix={matrices[key]}
+                                />
+                            </Collapsible>
+                        </div>
                     )
                 )}
             </div>

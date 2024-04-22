@@ -21,7 +21,7 @@ const OutputColumn = ({ algorithm, tableData, overallData, matrix }) => {
                 {textPrompts.map((prompt, index) => (
                     <p key={index}>
                         {prompt}
-                        {overallData[keys[index]].toFixed(3)}
+                        {overallData[keys[index]].toFixed(2)}
                     </p>
                 ))}
             </div>

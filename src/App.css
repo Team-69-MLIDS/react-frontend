@@ -21,10 +21,13 @@
 }
 
 #compare {
+    display: flex;
     background-color: black;
     flex: 4;
     padding: 1rem;
     overflow-y: auto;
+    width: 100%;
+    justify-content: center;
 }
 
 .sidebar {
@@ -56,6 +59,7 @@
     justify-content: center;
     align-items: flex-start;
     flex-direction: row;
+    max-width: 100%;
 }
 
 .runOutput {
@@ -63,7 +67,7 @@
     border: 1px solid white;
     flex: 1;
     text-align: center;
-    flex-flow: column wrap;
+    flex-direction: column;
 }
 
 .confusionMatrix {
@@ -86,9 +90,14 @@
     flex-direction: column;
 }
 
+.columnContainer {
+    display: flex;
+    flex: 1;
+}
+
 .runOutputColumns {
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .outputTable {
@@ -123,12 +132,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-
-/* Border */
-
-.border {
-    border: 1px solid white;
 }
 
 /* Search */
@@ -172,6 +175,11 @@
     cursor: pointer;
     width: 100%;
 }
+
+.outputCollapsible {
+    border: none !important;
+}
+
 .Collapsible__trigger {
     display: block;
     font-weight: 400;
